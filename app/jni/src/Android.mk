@@ -7,6 +7,7 @@ LOCAL_MODULE := facesmash
 SDL_PATH := ../SDL
 SDL_IMAGE_PATH := ../SDL_image
 SDL_TTF_PATH := ../SDL_ttf
+SDL_MIXER_PATH := ../SDL_mixer
 
 ENTT_DIR := entt
 ENTT_SRC_DIR := $(ENTT_DIR)/src
@@ -16,6 +17,7 @@ FACESMASH_SRC_DIR := $(FACESMASH_DIR)/src
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/$(SDL_PATH)/include \
 	$(LOCAL_PATH)/$(SDL_IMAGE_PATH) \
 	$(LOCAL_PATH)/$(SDL_TTF_PATH) \
+	$(LOCAL_PATH)/$(SDL_MIXER_PATH) \
 	$(LOCAL_PATH)/$(ENTT_SRC_DIR) \
 	$(LOCAL_PATH)/$(FACESMASH_SRC_DIR)
 
@@ -26,7 +28,8 @@ LOCAL_SRC_FILES := $(FACESMASH_SRC_DIR)/game/game_env.cpp \
 	$(FACESMASH_SRC_DIR)/input/user_input_handler.cpp \
 	$(FACESMASH_SRC_DIR)/resource/font_resource.cpp \
 	$(FACESMASH_SRC_DIR)/resource/texture_resource.cpp \
-	$(FACESMASH_SRC_DIR)/service/audio_service.cpp \
+	$(FACESMASH_SRC_DIR)/service/audio_null.cpp \
+	$(FACESMASH_SRC_DIR)/service/audio_sdl.cpp \
 	$(FACESMASH_SRC_DIR)/service/camera_android.cpp \
 	$(FACESMASH_SRC_DIR)/service/camera_null.cpp \
 	$(FACESMASH_SRC_DIR)/service/face_bus_service.cpp \
@@ -52,7 +55,8 @@ LOCAL_SRC_FILES := $(FACESMASH_SRC_DIR)/game/game_env.cpp \
 
 LOCAL_SHARED_LIBRARIES := SDL2 \
 	SDL2_image \
-	SDL2_ttf
+    SDL2_ttf \
+    SDL2_mixer
 
 LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -llog
 
