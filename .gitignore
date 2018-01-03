@@ -1,2 +1,14 @@
 # QtCreator
 *.user
+# Android
+build/
+app/jni/SDL*
+app/jni/visageSDK
+app/build
+app/.externalNativeBuild
+.gradle
+.idea
+gradle
+gradlew
+gradlew.bat
+local.properties

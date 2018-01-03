@@ -1,0 +1,9 @@
+[submodule "app/jni/src/facesmash-sources"]
+	path = app/jni/src/facesmash-sources
+	url = git@bitbucket.org:gamee-boy/facesmash-sources.git
+[submodule "app/jni/src/entt"]
+	path = app/jni/src/entt
+	url = git@github.com:skypjack/entt.git
+[submodule "app/src/main/assets"]
+	path = app/src/main/assets
+	url = git@bitbucket.org:gamee-boy/facesmash-assets.git
