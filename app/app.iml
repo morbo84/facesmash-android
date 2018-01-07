@@ -106,12 +106,11 @@
       <sourceFolder url="file://$MODULE_DIR$/jni/SDL_ttf/external/freetype-2.4.12/src/type1" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/jni/SDL_ttf/external/freetype-2.4.12/src/type42" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/jni/SDL_ttf/external/freetype-2.4.12/src/winfonts" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/jni/src/facesmash-sources/src/emotion" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/jni/src/facesmash-sources/src/game" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/jni/src/facesmash-sources/src/input" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/jni/src/facesmash-sources/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/jni/src/facesmash-sources/src/process" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/jni/src/facesmash-sources/src/resource" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/jni/src/facesmash-sources/src/scene" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/jni/src/facesmash-sources/src/service" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/jni/src/facesmash-sources/src/system" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/jni/src/facesmash-sources/src/time" isTestSource="false" />
@@ -204,10 +203,8 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/split-apk" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/splits-support" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
-      <excludeFolder url="file://$MODULE_DIR$/build/reports" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 27 Platform" jdkType="Android SDK" />

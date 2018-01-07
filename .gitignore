@@ -3,7 +3,8 @@
 # Android
 build/
 app/jni/SDL*
-app/jni/visageSDK
+app/jni/visageSDK/*
+!app/jni/visageSDK/Android.mk
 app/build
 app/.externalNativeBuild
 .gradle

@@ -45,9 +45,11 @@ public class FaceSmashActivity extends SDLActivity {
         return new String[]{
                 "SDL2",
                 "SDL2_image",
-                // "SDL2_mixer",
+                "SDL2_mixer",
                 // "SDL2_net",
                 "SDL2_ttf",
+                "VisageVision",
+                "VisageAnalyser",
                 "facesmash"
         };
     }
@@ -62,6 +64,7 @@ public class FaceSmashActivity extends SDLActivity {
         }
 
         copyAssets();
+        InitVisage();
     }
 
     @Override
@@ -119,8 +122,8 @@ public class FaceSmashActivity extends SDLActivity {
             e.printStackTrace();
         }
 
-        cam.startPreview();
         WriteCameraParams(previewSize.width, previewSize.height, bitsPerPixel);
+        cam.startPreview();
     }
 
     /**
@@ -169,7 +172,7 @@ public class FaceSmashActivity extends SDLActivity {
             File file = new File(newFileName);
 
             if(!file.exists()) {
-                in = assetManager.open("visage/" + filename);
+                in = assetManager.open(filename);
                 out = new FileOutputStream(newFileName);
 
                 byte[] buffer = new byte[4*1024];
@@ -194,7 +197,17 @@ public class FaceSmashActivity extends SDLActivity {
     public void copyAssets() {
         // create dirs
         final String[] dirs = {
-                "visage"
+                "visage",
+                "visage/bdtsdata",
+                "visage/bdtsdata/FF",
+                "visage/bdtsdata/LBF",
+                "visage/bdtsdata/NN",
+                "visage/bdtsdata/LBF/pe",
+                "visage/bdtsdata/LBF/vfadata",
+                "visage/bdtsdata/LBF/ye",
+                "visage/bdtsdata/LBF/vfadata/ad",
+                "visage/bdtsdata/LBF/vfadata/ed",
+                "visage/bdtsdata/LBF/vfadata/gd"
         };
 
         String rootDir = getFilesDir().getAbsolutePath();
@@ -209,8 +222,39 @@ public class FaceSmashActivity extends SDLActivity {
 
         // copy files
         final String[] files = {
-                "578-496-411-691-522-273-235-359-916-935-253.vlc",
-                "Facial Features Tracker - High.cfg"
+                "visage/578-496-411-691-522-273-235-359-916-935-253.vlc",
+                "visage/Facial Features Tracker - High.cfg",
+                "visage/bdtsdata/FF/ff.dat",
+                "visage/bdtsdata/LBF/lv",
+                "visage/bdtsdata/LBF/pr.lbf",
+                "visage/bdtsdata/LBF/pe/landmarks.txt",
+                "visage/bdtsdata/LBF/pe/lp11.bdf",
+                "visage/bdtsdata/LBF/pe/W",
+                "visage/bdtsdata/LBF/vfadata/ad/ad0.lbf",
+                "visage/bdtsdata/LBF/vfadata/ad/ad1.lbf",
+                "visage/bdtsdata/LBF/vfadata/ad/ad2.lbf",
+                "visage/bdtsdata/LBF/vfadata/ad/ad3.lbf",
+                "visage/bdtsdata/LBF/vfadata/ad/ad4.lbf",
+                "visage/bdtsdata/LBF/vfadata/ad/regressor.lbf",
+                "visage/bdtsdata/LBF/vfadata/ed/ed0.lbf",
+                "visage/bdtsdata/LBF/vfadata/ed/ed1.lbf",
+                "visage/bdtsdata/LBF/vfadata/ed/ed2.lbf",
+                "visage/bdtsdata/LBF/vfadata/ed/ed3.lbf",
+                "visage/bdtsdata/LBF/vfadata/ed/ed4.lbf",
+                "visage/bdtsdata/LBF/vfadata/ed/ed5.lbf",
+                "visage/bdtsdata/LBF/vfadata/ed/ed6.lbf",
+                "visage/bdtsdata/LBF/vfadata/gd/gd.lbf",
+                "visage/bdtsdata/LBF/ye/landmarks.txt",
+                "visage/bdtsdata/LBF/ye/lp11.bdf",
+                "visage/bdtsdata/LBF/ye/W",
+                "visage/bdtsdata/NN/fa.lbf",
+                "visage/bdtsdata/NN/fc.lbf",
+                "visage/bdtsdata/NN/fr.bin",
+                "visage/bdtsdata/NN/pr.bin",
+                "visage/candide3.fdp",
+                "visage/candide3.wfm",
+                "visage/jk_300.fdp",
+                "visage/jk_300.wfm"
         };
 
         for (String filename : files) {
@@ -230,4 +274,5 @@ public class FaceSmashActivity extends SDLActivity {
      */
     public native void WriteFrameCamera(byte[] frame);
     public native void WriteCameraParams(int width, int height, int bitsPerPixel);
+    public native void InitVisage();
 }
