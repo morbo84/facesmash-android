@@ -24,7 +24,11 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/$(SDL_PATH)/include \
 	$(LOCAL_PATH)/$(FACESMASH_SRC_DIR)
 
 # Add your application source files here...
-LOCAL_SRC_FILES := $(FACESMASH_SRC_DIR)/game/game_env.cpp \
+LOCAL_SRC_FILES := \
+	$(FACESMASH_SRC_DIR)/common/ease.cpp \
+	$(FACESMASH_SRC_DIR)/common/util.cpp \
+	$(FACESMASH_SRC_DIR)/factory/factory.cpp \
+	$(FACESMASH_SRC_DIR)/game/game_env.cpp \
 	$(FACESMASH_SRC_DIR)/game/game_loop.cpp \
 	$(FACESMASH_SRC_DIR)/game/game_renderer.cpp \
 	$(FACESMASH_SRC_DIR)/emotion/emo_detector.cpp \
@@ -37,15 +41,15 @@ LOCAL_SRC_FILES := $(FACESMASH_SRC_DIR)/game/game_env.cpp \
 	$(FACESMASH_SRC_DIR)/service/camera_null.cpp \
 	$(FACESMASH_SRC_DIR)/service/face_bus_service.cpp \
 	$(FACESMASH_SRC_DIR)/system/animation_system.cpp \
-	$(FACESMASH_SRC_DIR)/system/bonus_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/camera_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/destroy_later_system.cpp \
-	$(FACESMASH_SRC_DIR)/system/face_modifier_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/face_smash_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/frame_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/hud_system.cpp \
+	$(FACESMASH_SRC_DIR)/system/item_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/movement_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/rendering_system.cpp \
+	$(FACESMASH_SRC_DIR)/system/reward_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/scene_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/score_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/smash_button_system.cpp \
