@@ -30,6 +30,7 @@ public class FaceSmashActivity extends SDLActivity {
     SurfaceTexture tex;
     Size previewSize;
     int bitsPerPixel;
+    boolean isPreviewOn = false;
 
     /**
      * This method is called by SDL before loading the native shared libraries.
@@ -64,25 +65,26 @@ public class FaceSmashActivity extends SDLActivity {
         }
 
         copyAssets();
+        InitCamera();
         InitVisage();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        GrabFromCamera();
+        if(cam == null)
+            InitCamera();
+        if(isPreviewOn)
+            StartCamera();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        closeCamera();
+        ReleaseCamera();
     }
 
-    /**
-     * Start grabbing frames from camera
-     */
-    public void GrabFromCamera() {
+    private void InitCamera() {
         int cameraId = -1;
         int numberOfCameras = Camera.getNumberOfCameras();
         for (int i = 0; i < numberOfCameras; i++) {
@@ -123,7 +125,24 @@ public class FaceSmashActivity extends SDLActivity {
         }
 
         WriteCameraParams(previewSize.width, previewSize.height, bitsPerPixel);
+    }
+
+    private void ReleaseCamera() {
+        if (cam != null) {
+            cam.stopPreview();
+            cam.release();
+            cam = null;
+        }
+    }
+
+    public void StartCamera() {
         cam.startPreview();
+        isPreviewOn = true;
+    }
+
+    public void StopCamera() {
+        cam.stopPreview();
+        isPreviewOn = false;
     }
 
     /**
@@ -147,14 +166,6 @@ public class FaceSmashActivity extends SDLActivity {
 
         previewSize = cam.getParameters().getPreviewSize();
         Log.i(TAG, "Current preview size is " + previewSize.width + ", " + previewSize.height);
-    }
-
-    public void closeCamera() {
-        if (cam != null) {
-            cam.stopPreview();
-            cam.release();
-            cam = null;
-        }
     }
 
     /** Utility method called to copy required file to trackerdata folder.

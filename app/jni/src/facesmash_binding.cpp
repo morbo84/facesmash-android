@@ -1,3 +1,4 @@
+#include <SDL.h>
 #include <jni.h>
 #include <android/log.h>
 #include "locator/locator.hpp"
@@ -34,11 +35,55 @@ static std::mutex bindingMtx;
 static std::condition_variable bindingCv;
 
 
-std::tuple<int, int, int> facesmashGetCameraParams() {
+std::tuple<int, int, int> bindingGetCameraParams() {
     std::unique_lock lck{bindingMtx};
     if(!bindingReady)
         bindingCv.wait(lck, [] { return bindingReady; });
     return std::make_tuple(resolution.first, resolution.second, bitsPerPixel);
+}
+
+
+void bindingStartCamera() {
+    // retrieve the JNI environment.
+    JNIEnv* env = (JNIEnv*)SDL_AndroidGetJNIEnv();
+
+    // retrieve the Java instance of the SDLActivity
+    jobject activity = (jobject)SDL_AndroidGetActivity();
+
+    // find the Java class of the activity. It should be SDLActivity or a subclass of it.
+    jclass clazz(env->GetObjectClass(activity));
+
+    // find the identifier of the method to call
+    jmethodID method_id = env->GetMethodID(clazz, "StartCamera", "()V");
+
+    // effectively call the Java method
+    env->CallVoidMethod(activity, method_id);
+
+    // clean up the local references.
+    env->DeleteLocalRef(activity);
+    env->DeleteLocalRef(clazz);
+}
+
+
+void bindingStopCamera() {
+    // retrieve the JNI environment.
+    JNIEnv* env = (JNIEnv*)SDL_AndroidGetJNIEnv();
+
+    // retrieve the Java instance of the SDLActivity
+    jobject activity = (jobject)SDL_AndroidGetActivity();
+
+    // find the Java class of the activity. It should be SDLActivity or a subclass of it.
+    jclass clazz(env->GetObjectClass(activity));
+
+    // find the identifier of the method to call
+    jmethodID method_id = env->GetMethodID(clazz, "StopCamera", "()V");
+
+    // effectively call the Java method
+    env->CallVoidMethod(activity, method_id);
+
+    // clean up the local references.
+    env->DeleteLocalRef(activity);
+    env->DeleteLocalRef(clazz);
 }
 
 } // namespace gamee
