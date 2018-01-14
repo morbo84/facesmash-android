@@ -25,13 +25,14 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/$(SDL_PATH)/include \
 
 # Add your application source files here...
 LOCAL_SRC_FILES := \
+	$(FACESMASH_SRC_DIR)/common/bag.cpp \
 	$(FACESMASH_SRC_DIR)/common/ease.cpp \
 	$(FACESMASH_SRC_DIR)/common/util.cpp \
+	$(FACESMASH_SRC_DIR)/emotion/emo_detector.cpp \
 	$(FACESMASH_SRC_DIR)/factory/factory.cpp \
 	$(FACESMASH_SRC_DIR)/game/game_env.cpp \
 	$(FACESMASH_SRC_DIR)/game/game_loop.cpp \
 	$(FACESMASH_SRC_DIR)/game/game_renderer.cpp \
-	$(FACESMASH_SRC_DIR)/emotion/emo_detector.cpp \
 	$(FACESMASH_SRC_DIR)/input/user_input_handler.cpp \
 	$(FACESMASH_SRC_DIR)/resource/font_resource.cpp \
 	$(FACESMASH_SRC_DIR)/resource/texture_resource.cpp \
@@ -55,6 +56,7 @@ LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/system/smash_button_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/the_game_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/timer_system.cpp \
+	$(FACESMASH_SRC_DIR)/system/training_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/ui_button_system.cpp \
 	$(FACESMASH_SRC_DIR)/time/clock.cpp \
 	$(FACESMASH_SRC_DIR)/main.cpp \
