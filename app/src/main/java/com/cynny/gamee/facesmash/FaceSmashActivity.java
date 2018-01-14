@@ -145,10 +145,10 @@ public class FaceSmashActivity extends SDLActivity {
     }
 
     public void StartCamera() {
-        if(cam != null)
+        if(cam != null) {
             cam.startPreview();
-
-        isPreviewOn = true;
+            isPreviewOn = true;
+        }
     }
 
     public void StopCamera() {
