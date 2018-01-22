@@ -28,27 +28,36 @@ LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/common/bag.cpp \
 	$(FACESMASH_SRC_DIR)/common/ease.cpp \
 	$(FACESMASH_SRC_DIR)/common/util.cpp \
-	$(FACESMASH_SRC_DIR)/emotion/emo_detector.cpp \
-	$(FACESMASH_SRC_DIR)/factory/factory.cpp \
+	$(FACESMASH_SRC_DIR)/factory/game_factory.cpp \
+	$(FACESMASH_SRC_DIR)/factory/play_factory.cpp \
+	$(FACESMASH_SRC_DIR)/factory/ui_factory.cpp \
 	$(FACESMASH_SRC_DIR)/game/game_env.cpp \
 	$(FACESMASH_SRC_DIR)/game/game_loop.cpp \
 	$(FACESMASH_SRC_DIR)/game/game_renderer.cpp \
+	$(FACESMASH_SRC_DIR)/emotion/emo_detector.cpp \
 	$(FACESMASH_SRC_DIR)/input/user_input_handler.cpp \
+	$(FACESMASH_SRC_DIR)/resource/assets.cpp \
 	$(FACESMASH_SRC_DIR)/resource/font_resource.cpp \
 	$(FACESMASH_SRC_DIR)/resource/texture_resource.cpp \
+	$(FACESMASH_SRC_DIR)/service/ads_android.cpp \
+	$(FACESMASH_SRC_DIR)/service/ads_null.cpp \
 	$(FACESMASH_SRC_DIR)/service/audio_null.cpp \
 	$(FACESMASH_SRC_DIR)/service/audio_sdl.cpp \
+	$(FACESMASH_SRC_DIR)/service/av_muxer_android.cpp \
+	$(FACESMASH_SRC_DIR)/service/av_muxer_null.cpp \
 	$(FACESMASH_SRC_DIR)/service/camera_android.cpp \
 	$(FACESMASH_SRC_DIR)/service/camera_null.cpp \
 	$(FACESMASH_SRC_DIR)/service/face_bus_service.cpp \
 	$(FACESMASH_SRC_DIR)/system/animation_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/camera_system.cpp \
+	$(FACESMASH_SRC_DIR)/system/debug_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/destroy_later_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/face_smash_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/frame_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/hud_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/item_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/movement_system.cpp \
+	$(FACESMASH_SRC_DIR)/system/recording_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/rendering_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/reward_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/scene_system.cpp \
