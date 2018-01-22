@@ -28,13 +28,13 @@ LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/common/bag.cpp \
 	$(FACESMASH_SRC_DIR)/common/ease.cpp \
 	$(FACESMASH_SRC_DIR)/common/util.cpp \
+	$(FACESMASH_SRC_DIR)/emotion/emo_detector.cpp \
 	$(FACESMASH_SRC_DIR)/factory/game_factory.cpp \
 	$(FACESMASH_SRC_DIR)/factory/play_factory.cpp \
 	$(FACESMASH_SRC_DIR)/factory/ui_factory.cpp \
 	$(FACESMASH_SRC_DIR)/game/game_env.cpp \
 	$(FACESMASH_SRC_DIR)/game/game_loop.cpp \
 	$(FACESMASH_SRC_DIR)/game/game_renderer.cpp \
-	$(FACESMASH_SRC_DIR)/emotion/emo_detector.cpp \
 	$(FACESMASH_SRC_DIR)/input/user_input_handler.cpp \
 	$(FACESMASH_SRC_DIR)/resource/assets.cpp \
 	$(FACESMASH_SRC_DIR)/resource/font_resource.cpp \
