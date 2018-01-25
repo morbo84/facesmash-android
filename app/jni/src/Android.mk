@@ -54,7 +54,6 @@ LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/system/destroy_later_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/face_smash_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/frame_system.cpp \
-	$(FACESMASH_SRC_DIR)/system/hud_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/item_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/movement_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/recording_system.cpp \

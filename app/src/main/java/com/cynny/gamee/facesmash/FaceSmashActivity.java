@@ -133,7 +133,7 @@ public class FaceSmashActivity extends SDLActivity {
             e.printStackTrace();
         }
 
-        WriteCameraParams(previewSize.width, previewSize.height, bitsPerPixel);
+        WriteCameraParams(previewSize.width, previewSize.height);
     }
 
     private void ReleaseCamera() {
@@ -293,6 +293,6 @@ public class FaceSmashActivity extends SDLActivity {
      * @param frame  raw pixel data of image used for tracking.
      */
     public native void WriteFrameCamera(byte[] frame);
-    public native void WriteCameraParams(int width, int height, int bitsPerPixel);
+    public native void WriteCameraParams(int width, int height);
     public native void InitVisage();
 }
