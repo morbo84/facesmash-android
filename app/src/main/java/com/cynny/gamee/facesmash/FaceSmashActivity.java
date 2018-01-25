@@ -113,7 +113,7 @@ public class FaceSmashActivity extends SDLActivity {
         }
         // cam.setDisplayOrientation(90);
         Camera.Parameters parameters = cam.getParameters();
-        setPreviewSize(parameters, 700);
+        setPreviewSize(parameters, 720);
 
         bitsPerPixel = ImageFormat.getBitsPerPixel(cam.getParameters().getPreviewFormat());
         int dataBufferSize = (previewSize.height * previewSize.width * bitsPerPixel) / 8;
@@ -122,8 +122,8 @@ public class FaceSmashActivity extends SDLActivity {
         }
         cam.setPreviewCallbackWithBuffer(new Camera.PreviewCallback() {
             public void onPreviewFrame(byte[] data, Camera camera) {
-                camera.addCallbackBuffer(data);
                 WriteFrameCamera(data);
+                camera.addCallbackBuffer(data);
             }
         });
         tex = new SurfaceTexture(0);
