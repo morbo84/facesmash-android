@@ -117,7 +117,7 @@ public class FaceSmashActivity extends SDLActivity {
 
         bitsPerPixel = ImageFormat.getBitsPerPixel(cam.getParameters().getPreviewFormat());
         int dataBufferSize = (previewSize.height * previewSize.width * bitsPerPixel) / 8;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 2; i++) {
             cam.addCallbackBuffer(new byte[dataBufferSize]);
         }
         cam.setPreviewCallbackWithBuffer(new Camera.PreviewCallback() {
