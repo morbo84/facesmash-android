@@ -6,7 +6,40 @@
 #include <atomic>
 #include <condition_variable>
 #include <mutex>
+#include <string>
 #include <tuple>
+
+
+// helper functions
+
+namespace {
+
+// credits https://stackoverflow.com/a/41820336/2508150
+std::string jstring2string(JNIEnv *env, jstring jStr) {
+    if (!jStr)
+        return "";
+
+    const jclass stringClass = env->GetObjectClass(jStr);
+    const jmethodID getBytes = env->GetMethodID(stringClass, "getBytes",
+                                                "(Ljava/lang/String;)[B");
+    const jbyteArray stringJbytes = (jbyteArray) env->CallObjectMethod(jStr, getBytes,
+                                                                       env->NewStringUTF(
+                                                                               "UTF-8"));
+
+    size_t length = (size_t) env->GetArrayLength(stringJbytes);
+    jbyte *pBytes = env->GetByteArrayElements(stringJbytes, NULL);
+
+    std::string ret = std::string((char *) pBytes, length);
+    env->ReleaseByteArrayElements(stringJbytes, pBytes, JNI_ABORT);
+
+    env->DeleteLocalRef(stringJbytes);
+    env->DeleteLocalRef(stringClass);
+    return ret;
+}
+
+}
+
+// ######################### VISAGE ###############################
 
 // neccessary prototype declaration for licensing
 namespace VisageSDK
@@ -24,7 +57,11 @@ static void AlertCallback(const char* warningMessage) {
     __android_log_print(ANDROID_LOG_ERROR, "EMO DETECTOR license", "%s", warningMessage);
 }
 
+
 namespace gamee {
+
+
+// ############################# CAMERA #############################
 
 static std::pair<int, int> resolution{-1, -1};
 
@@ -85,6 +122,18 @@ void bindingStopCamera() {
     env->DeleteLocalRef(clazz);
 }
 
+
+// ############################# VIDEO CAPTURE #########################
+
+static std::string videoOutputFolder;
+
+
+std::string bindingVideoOutputPath() {
+    // I guess we can live without synchronization here
+    return videoOutputFolder;
+}
+
+
 } // namespace gamee
 
 
@@ -112,6 +161,11 @@ void Java_com_cynny_gamee_facesmash_FaceSmashActivity_WriteCameraParams(JNIEnv* 
 void Java_com_cynny_gamee_facesmash_FaceSmashActivity_InitVisage(JNIEnv* env, jobject obj) {
     auto path = "/data/data/com.cynny.gamee.facesmash/files/visage/578-496-411-691-522-273-235-359-916-935-253.vlc";
     VisageSDK::initializeLicenseManager(env, obj, path, AlertCallback);
+}
+
+
+void Java_com_cynny_gamee_facesmash_FaceSmashActivity_WriteVideoOutputFolder(JNIEnv* env, jobject obj, jstring path) {
+    gamee::videoOutputFolder = jstring2string(env, path);
 }
 
 

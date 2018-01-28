@@ -77,7 +77,7 @@ LOCAL_SHARED_LIBRARIES := SDL2 \
     VisageVision \
     VisageAnalyser
 
-LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -llog
+LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -llog -lmediandk
 
 # VISAGE_STATIC macro needed to silence declspec stuff
 # _STLPORT_MAJOR macro needed to tell opencv and visage to not use GCC custom stl headers

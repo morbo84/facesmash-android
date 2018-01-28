@@ -5,8 +5,8 @@ android {
     buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.cynny.gamee.facesmash"
-        minSdkVersion 16
-        targetSdkVersion 16
+        minSdkVersion 21
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         ndk {
@@ -14,7 +14,7 @@ android {
         }
         externalNativeBuild {
             ndkBuild {
-                arguments "APP_PLATFORM=android-16"
+                arguments "APP_PLATFORM=android-21"
             }
         }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

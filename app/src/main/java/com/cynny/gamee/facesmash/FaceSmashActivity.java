@@ -62,6 +62,10 @@ public class FaceSmashActivity extends SDLActivity {
         copyAssets();
         InitCamera();
         InitVisage();
+        String videoOutputFolder = "/sdcard/Android/data/com.cynny.gamee.facesmash/files"; // TODO
+        File dir = new File(videoOutputFolder);
+        if (!dir.exists()) dir.mkdirs();
+        WriteVideoOutputFolder(videoOutputFolder);
     }
 
     @Override
@@ -295,4 +299,5 @@ public class FaceSmashActivity extends SDLActivity {
     public native void WriteFrameCamera(byte[] frame);
     public native void WriteCameraParams(int width, int height);
     public native void InitVisage();
+    public native void WriteVideoOutputFolder(String path);
 }
