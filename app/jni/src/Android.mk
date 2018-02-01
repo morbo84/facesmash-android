@@ -52,6 +52,7 @@ LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/system/camera_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/debug_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/destroy_later_system.cpp \
+	$(FACESMASH_SRC_DIR)/system/easter_egg_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/face_smash_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/frame_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/item_system.cpp \

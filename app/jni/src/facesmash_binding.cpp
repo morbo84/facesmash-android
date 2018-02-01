@@ -79,7 +79,7 @@ std::tuple<int, int> bindingGetCameraParams() {
 }
 
 
-void bindingStartCamera() {
+void callVoidMethod(std::string method) {
     // retrieve the JNI environment.
     JNIEnv* env = (JNIEnv*)SDL_AndroidGetJNIEnv();
 
@@ -90,7 +90,7 @@ void bindingStartCamera() {
     jclass clazz(env->GetObjectClass(activity));
 
     // find the identifier of the method to call
-    jmethodID method_id = env->GetMethodID(clazz, "StartCamera", "()V");
+    jmethodID method_id = env->GetMethodID(clazz, method.c_str(), "()V");
 
     // effectively call the Java method
     env->CallVoidMethod(activity, method_id);
@@ -101,36 +101,29 @@ void bindingStartCamera() {
 }
 
 
+void bindingStartCamera() {
+    callVoidMethod("StartCamera");
+}
+
+
 void bindingStopCamera() {
-    // retrieve the JNI environment.
-    JNIEnv* env = (JNIEnv*)SDL_AndroidGetJNIEnv();
-
-    // retrieve the Java instance of the SDLActivity
-    jobject activity = (jobject)SDL_AndroidGetActivity();
-
-    // find the Java class of the activity. It should be SDLActivity or a subclass of it.
-    jclass clazz(env->GetObjectClass(activity));
-
-    // find the identifier of the method to call
-    jmethodID method_id = env->GetMethodID(clazz, "StopCamera", "()V");
-
-    // effectively call the Java method
-    env->CallVoidMethod(activity, method_id);
-
-    // clean up the local references.
-    env->DeleteLocalRef(activity);
-    env->DeleteLocalRef(clazz);
+    callVoidMethod("StopCamera");
 }
 
 
 // ############################# VIDEO CAPTURE #########################
 
-static std::string videoOutputFolder;
+static std::string videoOutputPath;
 
 
 std::string bindingVideoOutputPath() {
     // I guess we can live without synchronization here
-    return videoOutputFolder;
+    return videoOutputPath;
+}
+
+
+void bindingVideoExport() {
+    callVoidMethod("galleryAddVideo");
 }
 
 
@@ -159,13 +152,13 @@ void Java_com_cynny_gamee_facesmash_FaceSmashActivity_WriteCameraParams(JNIEnv* 
 
 
 void Java_com_cynny_gamee_facesmash_FaceSmashActivity_InitVisage(JNIEnv* env, jobject obj) {
-    auto path = "/data/data/com.cynny.gamee.facesmash/files/visage/578-496-411-691-522-273-235-359-916-935-253.vlc";
+    auto path = "/data/data/com.cynny.gamee.facesmash/files/visage/591-919-572-251-334-591-398-301-506-198-303.vlc";
     VisageSDK::initializeLicenseManager(env, obj, path, AlertCallback);
 }
 
 
-void Java_com_cynny_gamee_facesmash_FaceSmashActivity_WriteVideoOutputFolder(JNIEnv* env, jobject obj, jstring path) {
-    gamee::videoOutputFolder = jstring2string(env, path);
+void Java_com_cynny_gamee_facesmash_FaceSmashActivity_WriteVideoOutputPath(JNIEnv* env, jobject obj, jstring path) {
+    gamee::videoOutputPath = jstring2string(env, path);
 }
 
 
