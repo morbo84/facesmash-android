@@ -9,6 +9,7 @@ SDL_IMAGE_PATH := ../SDL_image
 SDL_TTF_PATH := ../SDL_ttf
 SDL_MIXER_PATH := ../SDL_mixer
 VISAGE_DIR := ../visageSDK
+GPG_DIR := ../gpg-cpp-sdk
 
 ENTT_DIR := entt
 ENTT_SRC_DIR := $(ENTT_DIR)/src
@@ -20,6 +21,7 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/$(SDL_PATH)/include \
 	$(LOCAL_PATH)/$(SDL_TTF_PATH) \
 	$(LOCAL_PATH)/$(SDL_MIXER_PATH) \
 	$(LOCAL_PATH)/$(VISAGE_DIR)/include \
+	$(LOCAL_PATH)/$(GPG_DIR)/include \
 	$(LOCAL_PATH)/$(ENTT_SRC_DIR) \
 	$(LOCAL_PATH)/$(FACESMASH_SRC_DIR)
 
@@ -50,20 +52,23 @@ LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/service/camera_android.cpp \
 	$(FACESMASH_SRC_DIR)/service/camera_null.cpp \
 	$(FACESMASH_SRC_DIR)/service/face_bus_service.cpp \
+	$(FACESMASH_SRC_DIR)/service/game_services_android.cpp \
+	$(FACESMASH_SRC_DIR)/service/game_services_null.cpp \
 	$(FACESMASH_SRC_DIR)/service/settings_onfile.cpp \
 	$(FACESMASH_SRC_DIR)/service/settings_onmemory.cpp \
+	$(FACESMASH_SRC_DIR)/system/achievements_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/animation_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/camera_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/debug_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/destroy_later_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/easter_egg_system.cpp \
+	$(FACESMASH_SRC_DIR)/system/face_button_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/face_smash_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/frame_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/item_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/movement_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/recording_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/rendering_system.cpp \
-	$(FACESMASH_SRC_DIR)/system/reward_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/scene_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/score_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/smash_button_system.cpp \
@@ -73,14 +78,16 @@ LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/system/ui_button_system.cpp \
 	$(FACESMASH_SRC_DIR)/time/clock.cpp \
 	$(FACESMASH_SRC_DIR)/main.cpp \
-	facesmash_binding.cpp
+	facesmash_binding.cpp \
+	gpg_init.cpp
 
 LOCAL_SHARED_LIBRARIES := SDL2 \
 	SDL2_image \
     SDL2_ttf \
     SDL2_mixer \
     VisageVision \
-    VisageAnalyser
+    VisageAnalyser \
+    libgpg-1
 
 LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -llog -lmediandk
 

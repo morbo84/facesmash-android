@@ -42,8 +42,7 @@ std::string jstring2string(JNIEnv *env, jstring jStr) {
 // ######################### VISAGE ###############################
 
 // neccessary prototype declaration for licensing
-namespace VisageSDK
-{
+namespace VisageSDK {
     void initializeLicenseManager(JNIEnv* env, jobject obj, const char *licenseKeyFileName, void (*alertFunction)(const char*) = 0);
 }
 
@@ -87,7 +86,7 @@ void callVoidMethod(std::string method) {
     jobject activity = (jobject)SDL_AndroidGetActivity();
 
     // find the Java class of the activity. It should be SDLActivity or a subclass of it.
-    jclass clazz(env->GetObjectClass(activity));
+    jclass clazz{env->GetObjectClass(activity)};
 
     // find the identifier of the method to call
     jmethodID method_id = env->GetMethodID(clazz, method.c_str(), "()V");
@@ -132,7 +131,7 @@ void bindingVideoExport() {
 
 extern "C" {
 
-void Java_com_cynny_gamee_facesmash_FaceSmashActivity_WriteFrameCamera(JNIEnv* env, jobject obj, jbyteArray frame) {
+void Java_com_gamee_facesmash_FaceSmashActivity_WriteFrameCamera(JNIEnv* env, jobject obj, jbyteArray frame) {
     jbyte* data = env->GetByteArrayElements(frame, 0);
     if(!gamee::cameraAndroidReady) return;
     auto& camera = static_cast<gamee::CameraAndroid&>(gamee::Locator::Camera::ref());
@@ -141,7 +140,7 @@ void Java_com_cynny_gamee_facesmash_FaceSmashActivity_WriteFrameCamera(JNIEnv* e
 }
 
 
-void Java_com_cynny_gamee_facesmash_FaceSmashActivity_WriteCameraParams(JNIEnv* env, jobject obj, jint width, jint height) {
+void Java_com_gamee_facesmash_FaceSmashActivity_WriteCameraParams(JNIEnv* env, jobject obj, jint width, jint height) {
     if(gamee::bindingReady) return;
     std::unique_lock lck{gamee::bindingMtx};
     gamee::resolution = {width, height};
@@ -151,13 +150,13 @@ void Java_com_cynny_gamee_facesmash_FaceSmashActivity_WriteCameraParams(JNIEnv* 
 }
 
 
-void Java_com_cynny_gamee_facesmash_FaceSmashActivity_InitVisage(JNIEnv* env, jobject obj) {
-    auto path = "/data/data/com.cynny.gamee.facesmash/files/visage/591-919-572-251-334-591-398-301-506-198-303.vlc";
-    VisageSDK::initializeLicenseManager(env, obj, path, AlertCallback);
+void Java_com_gamee_facesmash_FaceSmashActivity_InitVisage(JNIEnv* env, jobject obj) {
+    auto path = std::string{SDL_AndroidGetInternalStoragePath()} + "/visage/591-919-572-251-334-591-398-301-506-198-303.vlc";
+    VisageSDK::initializeLicenseManager(env, obj, path.c_str(), AlertCallback);
 }
 
 
-void Java_com_cynny_gamee_facesmash_FaceSmashActivity_WriteVideoOutputPath(JNIEnv* env, jobject obj, jstring path) {
+void Java_com_gamee_facesmash_FaceSmashActivity_WriteVideoOutputPath(JNIEnv* env, jobject obj, jstring path) {
     gamee::videoOutputPath = jstring2string(env, path);
 }
 

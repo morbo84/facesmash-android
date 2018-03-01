@@ -1,5 +1,6 @@
-package com.cynny.gamee.facesmash;
+package com.gamee.facesmash;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.ImageFormat;
@@ -7,7 +8,6 @@ import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -105,6 +105,13 @@ public class FaceSmashActivity extends SDLActivity {
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        nativeOnActivityResult(this, requestCode, resultCode, data);
+
     }
 
     private void InitCamera() {
@@ -340,4 +347,6 @@ public class FaceSmashActivity extends SDLActivity {
     public native void WriteCameraParams(int width, int height);
     public native void InitVisage();
     public native void WriteVideoOutputPath(String path);
+    // needed by gpg
+    public native void nativeOnActivityResult(Activity activity, int requestCode, int resultCode, Intent data);
 }
