@@ -41,12 +41,12 @@ LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/emotion/emo_detector.cpp \
 	$(FACESMASH_SRC_DIR)/input/user_input_handler.cpp \
 	$(FACESMASH_SRC_DIR)/resource/assets.cpp \
+	$(FACESMASH_SRC_DIR)/resource/audio_resource.cpp \
 	$(FACESMASH_SRC_DIR)/resource/font_resource.cpp \
 	$(FACESMASH_SRC_DIR)/resource/texture_resource.cpp \
 	$(FACESMASH_SRC_DIR)/service/ads_android.cpp \
 	$(FACESMASH_SRC_DIR)/service/ads_null.cpp \
-	$(FACESMASH_SRC_DIR)/service/audio_null.cpp \
-	$(FACESMASH_SRC_DIR)/service/audio_sdl.cpp \
+	$(FACESMASH_SRC_DIR)/service/audio_service.cpp \
 	$(FACESMASH_SRC_DIR)/service/av_recorder_android.cpp \
 	$(FACESMASH_SRC_DIR)/service/av_recorder_null.cpp \
 	$(FACESMASH_SRC_DIR)/service/camera_android.cpp \
