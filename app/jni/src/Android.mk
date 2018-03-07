@@ -46,7 +46,8 @@ LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/resource/texture_resource.cpp \
 	$(FACESMASH_SRC_DIR)/service/ads_android.cpp \
 	$(FACESMASH_SRC_DIR)/service/ads_null.cpp \
-	$(FACESMASH_SRC_DIR)/service/audio_service.cpp \
+	$(FACESMASH_SRC_DIR)/service/audio_null.cpp \
+	$(FACESMASH_SRC_DIR)/service/audio_sdl.cpp \
 	$(FACESMASH_SRC_DIR)/service/av_recorder_android.cpp \
 	$(FACESMASH_SRC_DIR)/service/av_recorder_null.cpp \
 	$(FACESMASH_SRC_DIR)/service/camera_android.cpp \
@@ -58,6 +59,8 @@ LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/service/settings_onmemory.cpp \
 	$(FACESMASH_SRC_DIR)/system/achievements_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/animation_system.cpp \
+	$(FACESMASH_SRC_DIR)/system/audio_system.cpp \
+	$(FACESMASH_SRC_DIR)/system/av_recorder_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/camera_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/debug_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/destroy_later_system.cpp \
@@ -67,7 +70,6 @@ LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/system/frame_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/item_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/movement_system.cpp \
-	$(FACESMASH_SRC_DIR)/system/recording_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/rendering_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/scene_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/score_system.cpp \
