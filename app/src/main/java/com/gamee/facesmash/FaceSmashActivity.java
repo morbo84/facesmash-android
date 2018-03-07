@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.hardware.Camera.Size;
 import android.view.View;
@@ -27,6 +29,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 
 /**
  * A sample wrapper class that just calls SDLActivity
@@ -339,6 +343,19 @@ public class FaceSmashActivity extends SDLActivity {
                 }
             }
         }
+    }
+
+    /**
+     * called from native code
+     */
+    public void showOssLicenses() {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(FaceSmashActivity.this, OssLicensesMenuActivity.class));
+            }
+        });
     }
 
 

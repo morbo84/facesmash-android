@@ -126,6 +126,13 @@ void bindingVideoExport() {
 }
 
 
+// ############################# OSS LICENSES #########################
+
+void showOssLicenses() {
+    callVoidMethod("showOssLicenses");
+}
+
+
 } // namespace gamee
 
 
