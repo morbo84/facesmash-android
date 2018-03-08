@@ -158,7 +158,7 @@ void Java_com_gamee_facesmash_FaceSmashActivity_WriteCameraParams(JNIEnv* env, j
 
 
 void Java_com_gamee_facesmash_FaceSmashActivity_InitVisage(JNIEnv* env, jobject obj) {
-    auto path = std::string{SDL_AndroidGetInternalStoragePath()} + "/visage/591-919-572-251-334-591-398-301-506-198-303.vlc";
+    auto path = std::string{SDL_AndroidGetInternalStoragePath()} + "/visage/813-721-696-114-345-714-410-682-472-210-486.vlc";
     VisageSDK::initializeLicenseManager(env, obj, path.c_str(), AlertCallback);
 }
 
