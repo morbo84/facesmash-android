@@ -99,7 +99,6 @@ void callVoidMethod(std::string method) {
     env->DeleteLocalRef(clazz);
 }
 
-
 void bindingStartCamera() {
     callVoidMethod("StartCamera");
 }
@@ -107,6 +106,57 @@ void bindingStartCamera() {
 
 void bindingStopCamera() {
     callVoidMethod("StopCamera");
+}
+
+
+// ############################# ADS #############################
+
+void bindingLoadInterstitialAd() {
+    callVoidMethod("AdsInterstitialLoad");
+}
+
+
+bool bindingIsLoadedIntestitialAd() {
+    // retrieve the JNI environment.
+    JNIEnv* env = (JNIEnv*)SDL_AndroidGetJNIEnv();
+
+    // retrieve the Java instance of the SDLActivity
+    jobject activity = (jobject)SDL_AndroidGetActivity();
+
+    // find the Java class of the activity. It should be SDLActivity or a subclass of it.
+    jclass clazz(env->GetObjectClass(activity));
+
+    // find the identifier of the method to call
+    jmethodID method_id = env->GetMethodID(clazz, "AdsIsInterstitialLoaded", "()Z");
+
+    // effectively call the Java method
+    auto ret = env->CallBooleanMethod(activity, method_id);
+
+    // clean up the local references.
+    env->DeleteLocalRef(activity);
+    env->DeleteLocalRef(clazz);
+
+    return static_cast<bool>(ret);
+}
+
+
+void bindingShowInterstitialAd() {
+    callVoidMethod("AdsInterstitialShow");
+}
+
+
+void bindingLoadBannerAd() {
+    // we load the banner when show is called in the java code
+}
+
+
+bool bindingIsLoadedBannerAd() {
+    return true;
+}
+
+
+void bindingShowBannerAd() {
+    callVoidMethod("AdsBannerShow");
 }
 
 

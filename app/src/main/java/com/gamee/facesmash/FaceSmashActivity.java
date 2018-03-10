@@ -3,6 +3,7 @@ package com.gamee.facesmash;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
@@ -15,6 +16,14 @@ import android.os.Looper;
 import android.util.Log;
 import android.hardware.Camera.Size;
 import android.view.View;
+import android.widget.RelativeLayout;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 
 import org.libsdl.app.SDLActivity;
 
@@ -28,6 +37,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.Locale;
 
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
@@ -45,6 +55,10 @@ public class FaceSmashActivity extends SDLActivity {
     int bitsPerPixel;
     boolean isPreviewOn = false;
     String videoOutputPath;
+
+    private InterstitialAd mInterstitialAd;
+    private AtomicBoolean mInterstitialLoaded;
+    private AdView mAdView;
 
     /**
      * This method is called by SDL before loading the native shared libraries.
@@ -77,6 +91,79 @@ public class FaceSmashActivity extends SDLActivity {
         copyAssets();
         InitCamera();
         InitVisage();
+        InitAds();
+    }
+
+    private void InitAds() {
+        MobileAds.initialize(this, "ca-app-pub-3134955856541949~5951417069");
+        mAdView = new AdView( this );
+        mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+        mAdView.setAdSize(AdSize.BANNER);
+        mAdView.setBackgroundColor(Color.TRANSPARENT);
+
+        mInterstitialLoaded = new AtomicBoolean(false);
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdFailedToLoad(int errorCode) {}
+
+            @Override
+            public void onAdOpened() {}
+
+            @Override
+            public void onAdLeftApplication() {}
+
+            @Override
+            public void onAdClosed() {
+                mInterstitialLoaded.set(false);
+            }
+
+            @Override
+            public void onAdLoaded() {
+                mInterstitialLoaded.set(true);
+            }
+        });
+    }
+
+    public void AdsInterstitialLoad() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            }
+        });
+    }
+
+    public boolean AdsIsInterstitialLoaded() {
+        return mInterstitialLoaded.get();
+    }
+
+    public void AdsInterstitialShow() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mInterstitialAd.setImmersiveMode(true);
+                mInterstitialAd.show();
+            }
+        });
+    }
+
+    public void AdsBannerShow() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+                params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                mLayout.addView(mAdView, params);
+                AdRequest adRequest = new AdRequest.Builder().build();
+                mAdView.loadAd(adRequest);
+            }
+        });
+
         File dir = new File(videoOutputPath).getParentFile();
         if (!dir.exists()) dir.mkdirs();
         WriteVideoOutputPath(videoOutputPath);
@@ -85,6 +172,8 @@ public class FaceSmashActivity extends SDLActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        mAdView.resume();
+
         if(cam == null)
             InitCamera();
         if(isPreviewOn)
@@ -93,8 +182,15 @@ public class FaceSmashActivity extends SDLActivity {
 
     @Override
     public void onPause() {
-        super.onPause();
+        mAdView.pause();
         ReleaseCamera();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        mAdView.destroy();
+        super.onDestroy();
     }
 
     @Override
