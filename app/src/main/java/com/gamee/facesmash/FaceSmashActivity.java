@@ -178,7 +178,7 @@ public class FaceSmashActivity extends SDLActivity {
             InitCamera();
         }
 
-        if(cam != null && isPreviewOn) {
+        if(isPreviewOn) {
             cam.startPreview();
         }
     }
@@ -193,6 +193,7 @@ public class FaceSmashActivity extends SDLActivity {
             }
 
             cam.release();
+            cam = null;
         }
 
         super.onPause();
