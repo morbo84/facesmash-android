@@ -178,8 +178,8 @@ public class FaceSmashActivity extends SDLActivity {
             InitCamera();
         }
 
-        if(isPreviewOn) {
-            StartCamera();
+        if(cam != null && isPreviewOn) {
+            cam.startPreview();
         }
     }
 
@@ -187,11 +187,14 @@ public class FaceSmashActivity extends SDLActivity {
     public void onPause() {
         mAdView.pause();
 
-        if(isPreviewOn) {
-            StopCamera();
+        if(cam != null) {
+            if (isPreviewOn) {
+                cam.stopPreview();
+            }
+
+            cam.release();
         }
 
-        ReleaseCamera();
         super.onPause();
     }
 
@@ -263,13 +266,6 @@ public class FaceSmashActivity extends SDLActivity {
         }
 
         WriteCameraParams(previewSize.width, previewSize.height);
-    }
-
-    private void ReleaseCamera() {
-        if (cam != null) {
-            cam.release();
-            cam = null;
-        }
     }
 
     public void StartCamera() {
