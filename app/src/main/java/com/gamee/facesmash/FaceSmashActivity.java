@@ -279,8 +279,6 @@ public class FaceSmashActivity extends SDLActivity {
     public void StopCamera() {
         if(cam != null && isPreviewOn) {
             cam.stopPreview();
-            cam.release();
-            InitCamera();
             isPreviewOn = false;
         }
     }
