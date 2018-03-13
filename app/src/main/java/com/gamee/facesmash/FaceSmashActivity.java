@@ -178,8 +178,8 @@ public class FaceSmashActivity extends SDLActivity {
             InitCamera();
         }
 
-        if(isPreviewOn) {
-            cam.startPreview();
+        if(cam != null && isPreviewOn) {
+            InternalStartCamera();
         }
     }
 
@@ -189,7 +189,7 @@ public class FaceSmashActivity extends SDLActivity {
 
         if(cam != null) {
             if (isPreviewOn) {
-                cam.stopPreview();
+                InternalStopCamera();
             }
 
             cam.release();
@@ -244,7 +244,7 @@ public class FaceSmashActivity extends SDLActivity {
             Log.e(TAG, "Unable to open camera");
             return;
         }
-        // cam.setDisplayOrientation(90);
+
         Camera.Parameters parameters = cam.getParameters();
         setPreviewSize(parameters, 720);
 
@@ -253,12 +253,7 @@ public class FaceSmashActivity extends SDLActivity {
         for (int i = 0; i < 2; i++) {
             cam.addCallbackBuffer(new byte[dataBufferSize]);
         }
-        cam.setPreviewCallbackWithBuffer(new Camera.PreviewCallback() {
-            public void onPreviewFrame(byte[] data, Camera camera) {
-                WriteFrameCamera(data);
-                camera.addCallbackBuffer(data);
-            }
-        });
+
         tex = new SurfaceTexture(0);
         try {
             cam.setPreviewTexture(tex);
@@ -269,16 +264,30 @@ public class FaceSmashActivity extends SDLActivity {
         WriteCameraParams(previewSize.width, previewSize.height);
     }
 
+    private void InternalStartCamera() {
+        cam.setPreviewCallbackWithBuffer(new Camera.PreviewCallback() {
+            public void onPreviewFrame(byte[] data, Camera camera) {
+                WriteFrameCamera(data);
+                camera.addCallbackBuffer(data);
+            }
+        });
+        cam.startPreview();
+    }
+
+    private void InternalStopCamera() {
+        cam.stopPreview();
+    }
+
     public void StartCamera() {
         if(cam != null && !isPreviewOn) {
-            cam.startPreview();
+            InternalStartCamera();
             isPreviewOn = true;
         }
     }
 
     public void StopCamera() {
         if(cam != null && isPreviewOn) {
-            cam.stopPreview();
+            InternalStopCamera();
             isPreviewOn = false;
         }
     }
