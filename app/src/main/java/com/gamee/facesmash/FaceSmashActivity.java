@@ -92,6 +92,13 @@ public class FaceSmashActivity extends SDLActivity {
         InitCamera();
         InitVisage();
         InitAds();
+        initStorage();
+    }
+
+    private void initStorage() {
+        File dir = new File(videoOutputPath).getParentFile();
+        if (!dir.exists()) dir.mkdirs();
+        WriteVideoOutputPath(videoOutputPath);
     }
 
     private void InitAds() {
@@ -163,10 +170,6 @@ public class FaceSmashActivity extends SDLActivity {
                 mAdView.loadAd(adRequest);
             }
         });
-
-        File dir = new File(videoOutputPath).getParentFile();
-        if (!dir.exists()) dir.mkdirs();
-        WriteVideoOutputPath(videoOutputPath);
     }
 
     @Override
