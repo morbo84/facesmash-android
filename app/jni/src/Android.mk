@@ -55,6 +55,8 @@ LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/service/face_bus_service.cpp \
 	$(FACESMASH_SRC_DIR)/service/game_services_android.cpp \
 	$(FACESMASH_SRC_DIR)/service/game_services_null.cpp \
+	$(FACESMASH_SRC_DIR)/service/permissions_android.cpp \
+	$(FACESMASH_SRC_DIR)/service/permissions_null.cpp \
 	$(FACESMASH_SRC_DIR)/service/settings_onfile.cpp \
 	$(FACESMASH_SRC_DIR)/service/settings_onmemory.cpp \
 	$(FACESMASH_SRC_DIR)/system/achievements_system.cpp \
