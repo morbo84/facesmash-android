@@ -1,7 +1,9 @@
 package com.gamee.facesmash;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.ImageFormat;
@@ -9,14 +11,17 @@ import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.hardware.Camera.Size;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -48,6 +53,11 @@ import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 public class FaceSmashActivity extends SDLActivity {
 
     static final String TAG = "FaceSmashActivity";
+    static final int PERMISSION_REQUEST_CAMERA = 0;
+    static final int PERMISSION_REQUEST_STORAGE = 1;
+    static final int PERMISSION_DENIED = 0;
+    static final int PERMISSION_GRANTED = 1;
+    static final int PERMISSION_SHOW_RATIONALE = 2;
 
     Camera cam;
     SurfaceTexture tex;
@@ -86,13 +96,14 @@ public class FaceSmashActivity extends SDLActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        videoOutputPath = getExternalFilesDir(null) + File.separator + "temp.mp4";
+        videoOutputPath = getFilesDir().getAbsolutePath() + File.separator + "temp.mp4";
         copyAssets();
-        InitCamera();
         InitVisage();
         InitAds();
         initStorage();
+
+        if(CheckPermissionStatus(PERMISSION_REQUEST_CAMERA) == PERMISSION_GRANTED)
+            InitCamera();
     }
 
     private void initStorage() {
@@ -295,6 +306,63 @@ public class FaceSmashActivity extends SDLActivity {
         }
     }
 
+    public int CheckPermissionStatus(int permission) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // transform the numerical code in a Manifest permission string
+            String permissionStr = permissionCodeToString(permission);
+
+            if(checkSelfPermission(permissionStr) == PackageManager.PERMISSION_GRANTED) {
+                return PERMISSION_GRANTED;
+            } else {
+                if(shouldShowRequestPermissionRationale(permissionStr)) {
+                    return PERMISSION_SHOW_RATIONALE;
+                }
+
+                return PERMISSION_DENIED;
+            }
+        } else
+            return PERMISSION_GRANTED;
+    }
+
+    private String permissionCodeToString(int permission) {
+        String permissionStr;
+        switch (permission) {
+            case PERMISSION_REQUEST_CAMERA:
+                permissionStr = Manifest.permission.CAMERA;
+                break;
+            case PERMISSION_REQUEST_STORAGE:
+                permissionStr = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+                break;
+            default:
+                permissionStr = "error";
+                break;
+        }
+
+        return permissionStr;
+    }
+
+    public void RequestPermission(int permission) {
+        String permissionStr = permissionCodeToString(permission);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{permissionStr}, permission);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        int result = PERMISSION_DENIED;
+        if(grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            result = PERMISSION_GRANTED;
+        else if(ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0]))
+            result = PERMISSION_SHOW_RATIONALE;
+
+        if(requestCode == PERMISSION_REQUEST_CAMERA && result == PERMISSION_GRANTED) {
+            InitCamera();
+        }
+
+        EnqueuePermissionResult(requestCode, result);
+    }
+
     /**
      * Sets preview size so that width is closest to param width
      *
@@ -476,6 +544,8 @@ public class FaceSmashActivity extends SDLActivity {
     public native void WriteCameraParams(int width, int height);
     public native void InitVisage();
     public native void WriteVideoOutputPath(String path);
+    // permissions management
+    public native void EnqueuePermissionResult(int permission, int result);
     // needed by gpg
     public native void nativeOnActivityResult(Activity activity, int requestCode, int resultCode, Intent data);
 }

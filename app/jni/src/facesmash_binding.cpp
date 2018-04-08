@@ -6,6 +6,7 @@
 #include <atomic>
 #include <condition_variable>
 #include <mutex>
+#include <queue>
 #include <string>
 #include <tuple>
 
@@ -176,6 +177,72 @@ void bindingVideoExport() {
 }
 
 
+// ############################# PERMISSIONS #########################
+
+std::mutex permissionsMtx;
+std::queue<std::pair<int, int>> permissionsQ;
+
+
+void enqueuePermissionResult(int permission, int result) {
+    std::lock_guard l{permissionsMtx};
+    permissionsQ.push({permission, result});
+}
+
+
+bool dequeuePermissionResult(std::pair<int, int>& p) {
+    std::lock_guard l{permissionsMtx};
+    auto ret = !permissionsQ.empty();
+    if(ret) {
+        p = std::move(permissionsQ.front());
+        permissionsQ.pop();
+    }
+
+    return ret;
+}
+
+
+int checkPermissionStatus(int permission) {
+    // retrieve the JNI environment.
+    JNIEnv* env = (JNIEnv*)SDL_AndroidGetJNIEnv();
+
+    // retrieve the Java instance of the SDLActivity
+    jobject activity = (jobject)SDL_AndroidGetActivity();
+
+    // find the Java class of the activity. It should be SDLActivity or a subclass of it.
+    jclass clazz{env->GetObjectClass(activity)};
+
+    // invoke the method
+    jmethodID myMethod = env->GetMethodID(clazz, "CheckPermissionStatus", "(I)I");
+    auto ret = env->CallIntMethod(activity, myMethod, permission);
+
+    // clean up the local references.
+    env->DeleteLocalRef(activity);
+    env->DeleteLocalRef(clazz);
+
+    return ret;
+}
+
+
+void requestPermission(int permission) {
+    // retrieve the JNI environment.
+    JNIEnv* env = (JNIEnv*)SDL_AndroidGetJNIEnv();
+
+    // retrieve the Java instance of the SDLActivity
+    jobject activity = (jobject)SDL_AndroidGetActivity();
+
+    // find the Java class of the activity. It should be SDLActivity or a subclass of it.
+    jclass clazz{env->GetObjectClass(activity)};
+
+    // invoke the method
+    jmethodID myMethod = env->GetMethodID(clazz, "RequestPermission", "(I)V");
+    env->CallVoidMethod(activity, myMethod, permission);
+
+    // clean up the local references.
+    env->DeleteLocalRef(activity);
+    env->DeleteLocalRef(clazz);
+}
+
+
 // ############################# OSS LICENSES #########################
 
 void showOssLicenses() {
@@ -215,6 +282,11 @@ void Java_com_gamee_facesmash_FaceSmashActivity_InitVisage(JNIEnv* env, jobject 
 
 void Java_com_gamee_facesmash_FaceSmashActivity_WriteVideoOutputPath(JNIEnv* env, jobject obj, jstring path) {
     gamee::videoOutputPath = jstring2string(env, path);
+}
+
+
+void Java_com_gamee_facesmash_FaceSmashActivity_EnqueuePermissionResult(JNIEnv* env, jobject obj, jint permission, jint result) {
+    gamee::enqueuePermissionResult(permission, result);
 }
 
 
