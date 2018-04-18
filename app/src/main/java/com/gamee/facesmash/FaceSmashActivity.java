@@ -281,8 +281,8 @@ public class FaceSmashActivity extends SDLActivity {
     private void InternalStartCamera() {
         cam.setPreviewCallbackWithBuffer(new Camera.PreviewCallback() {
             public void onPreviewFrame(byte[] data, Camera camera) {
-                WriteFrameCamera(data);
-                camera.addCallbackBuffer(data);
+            WriteFrameCamera(data);
+            camera.addCallbackBuffer(data);
             }
         });
         cam.startPreview();
