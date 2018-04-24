@@ -50,6 +50,8 @@ LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/service/audio_sdl.cpp \
 	$(FACESMASH_SRC_DIR)/service/av_recorder_android.cpp \
 	$(FACESMASH_SRC_DIR)/service/av_recorder_null.cpp \
+	$(FACESMASH_SRC_DIR)/service/billing_android.cpp \
+	$(FACESMASH_SRC_DIR)/service/billing_null.cpp \
 	$(FACESMASH_SRC_DIR)/service/camera_android.cpp \
 	$(FACESMASH_SRC_DIR)/service/camera_null.cpp \
 	$(FACESMASH_SRC_DIR)/service/face_bus_service.cpp \
