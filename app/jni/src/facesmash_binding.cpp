@@ -250,6 +250,55 @@ void showOssLicenses() {
 }
 
 
+// ############################# BILLINGS #########################
+
+std::mutex purchasessMtx;
+std::queue<std::pair<int, int>> purchasesQ;
+
+
+void enqueuePurchaseUpdates(int permission, int result) {
+    std::lock_guard l{purchasessMtx};
+    purchasesQ.push({permission, result});
+}
+
+
+bool dequeuePurchaseUpdates(std::pair<int, int>& p) {
+    std::lock_guard l{purchasessMtx};
+    auto ret = !purchasesQ.empty();
+    if(ret) {
+        p = std::move(purchasesQ.front());
+        purchasesQ.pop();
+    }
+
+    return ret;
+}
+
+
+void initiatePurchaseFlow(int productId) {
+    // retrieve the JNI environment.
+    JNIEnv* env = (JNIEnv*)SDL_AndroidGetJNIEnv();
+
+    // retrieve the Java instance of the SDLActivity
+    jobject activity = (jobject)SDL_AndroidGetActivity();
+
+    // find the Java class of the activity. It should be SDLActivity or a subclass of it.
+    jclass clazz{env->GetObjectClass(activity)};
+
+    // invoke the method
+    jmethodID myMethod = env->GetMethodID(clazz, "initiatePurchaseFlow", "(I)V");
+    env->CallVoidMethod(activity, myMethod, productId);
+
+    // clean up the local references.
+    env->DeleteLocalRef(activity);
+    env->DeleteLocalRef(clazz);
+}
+
+
+void queryPurchases()  {
+    callVoidMethod("queryPurchases");
+}
+
+
 } // namespace gamee
 
 
@@ -290,4 +339,9 @@ void Java_com_gamee_facesmash_FaceSmashActivity_EnqueuePermissionResult(JNIEnv* 
 }
 
 
-} // extern "C"
+void Java_com_gamee_facesmash_FaceSmashActivity_purchaseUpdated(JNIEnv *env, jobject instance, jint product, jint result) {
+    gamee::enqueuePurchaseUpdates(product, result);
+}
+
+
+} // extern "C"extern "C"

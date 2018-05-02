@@ -67,6 +67,7 @@ LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/system/animation_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/audio_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/av_recorder_system.cpp \
+	$(FACESMASH_SRC_DIR)/system/billing_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/camera_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/debug_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/destroy_later_system.cpp \

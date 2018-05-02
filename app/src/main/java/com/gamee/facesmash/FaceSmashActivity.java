@@ -23,6 +23,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.Purchase;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -69,6 +71,7 @@ public class FaceSmashActivity extends SDLActivity {
     private InterstitialAd mInterstitialAd;
     private AtomicBoolean mInterstitialLoaded;
     private AdView mAdView;
+    private BillingManager mBillingManager;
 
     /**
      * This method is called by SDL before loading the native shared libraries.
@@ -101,9 +104,55 @@ public class FaceSmashActivity extends SDLActivity {
         InitVisage();
         InitAds();
         initStorage();
+        initBillings();
 
         if(CheckPermissionStatus(PERMISSION_REQUEST_CAMERA) == PERMISSION_GRANTED)
             InitCamera();
+    }
+
+    private void initBillings() {
+        mBillingManager = new BillingManager(this, new BillingManager.BillingUpdatesListener() {
+            @Override
+            public void onBillingClientSetupFinished() {
+                Log.i(TAG, "BillingManager setup finished");
+            }
+
+            @Override
+            public void onConsumeFinished(String token, int result) {}
+
+            @Override
+            public void onPurchasesUpdated(@BillingClient.BillingResponse int resultCode, List<Purchase> purchases) {
+                int result;
+                switch (resultCode) {
+                    case BillingClient.BillingResponse.OK:
+                        result = 0;
+                        break;
+                    case BillingClient.BillingResponse.USER_CANCELED:
+                        result = 1;
+                        break;
+                    default:
+                        result = 2; // PURCHASE_ERROR in native code
+                        break;
+                }
+
+                Log.i(TAG, "BillingManager purchase results: " + purchases.size());
+                for(Purchase p : purchases) {
+                    // TODO: translate product in a number
+                    purchaseUpdated(0, result);
+                }
+            }
+        });
+    }
+
+    public void initiatePurchaseFlow(int productId) {
+        // TODO: convert product id in skuId
+        final String skuId = "remove_ads";
+        // final String skuId = "android.test.purchased";
+        mBillingManager.initiatePurchaseFlow(skuId, BillingClient.SkuType.INAPP);
+    }
+
+    public void queryPurchases() {
+        mBillingManager.queryPurchases();
     }
 
     private void initStorage() {
@@ -215,6 +264,7 @@ public class FaceSmashActivity extends SDLActivity {
 
     @Override
     public void onDestroy() {
+        mBillingManager.destroy();
         mAdView.destroy();
         super.onDestroy();
     }
@@ -548,4 +598,6 @@ public class FaceSmashActivity extends SDLActivity {
     public native void EnqueuePermissionResult(int permission, int result);
     // needed by gpg
     public native void nativeOnActivityResult(Activity activity, int requestCode, int resultCode, Intent data);
+    // billing service
+    public native void purchaseUpdated(int product, int result);
 }
