@@ -161,6 +161,11 @@ void bindingShowBannerAd() {
 }
 
 
+void bindingHideBannerAd() {
+    callVoidMethod("AdsBannerHide");
+}
+
+
 // ############################# VIDEO CAPTURE #########################
 
 static std::string videoOutputPath;

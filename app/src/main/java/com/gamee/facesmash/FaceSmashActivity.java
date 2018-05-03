@@ -21,7 +21,6 @@ import android.util.Log;
 import android.hardware.Camera.Size;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.Purchase;
@@ -60,6 +59,7 @@ public class FaceSmashActivity extends SDLActivity {
     static final int PERMISSION_DENIED = 0;
     static final int PERMISSION_GRANTED = 1;
     static final int PERMISSION_SHOW_RATIONALE = 2;
+    static final int REMOVE_ADS_CODE = 0;
 
     Camera cam;
     SurfaceTexture tex;
@@ -113,9 +113,7 @@ public class FaceSmashActivity extends SDLActivity {
     private void initBillings() {
         mBillingManager = new BillingManager(this, new BillingManager.BillingUpdatesListener() {
             @Override
-            public void onBillingClientSetupFinished() {
-                Log.i(TAG, "BillingManager setup finished");
-            }
+            public void onBillingClientSetupFinished() {}
 
             @Override
             public void onConsumeFinished(String token, int result) {}
@@ -135,19 +133,29 @@ public class FaceSmashActivity extends SDLActivity {
                         break;
                 }
 
-                Log.i(TAG, "BillingManager purchase results: " + purchases.size());
                 for(Purchase p : purchases) {
-                    // TODO: translate product in a number
-                    purchaseUpdated(0, result);
+                    if(p.getSku().equals("remove_ads"))
+                        purchaseUpdated(REMOVE_ADS_CODE, result);
                 }
             }
         });
     }
 
+    static private String skuFromCode(int productId) {
+        String ret = "";
+        switch (productId) {
+            case REMOVE_ADS_CODE:
+                ret = "remove_ads";
+                break;
+                default:
+                    break;
+        }
+
+        return ret;
+    }
+
     public void initiatePurchaseFlow(int productId) {
-        // TODO: convert product id in skuId
-        final String skuId = "remove_ads";
-        // final String skuId = "android.test.purchased";
+        final String skuId = FaceSmashActivity.skuFromCode(productId);
         mBillingManager.initiatePurchaseFlow(skuId, BillingClient.SkuType.INAPP);
     }
 
@@ -162,6 +170,7 @@ public class FaceSmashActivity extends SDLActivity {
     }
 
     private void InitAds() {
+        if(mAdView != null) return;
         MobileAds.initialize(this, "ca-app-pub-3134955856541949~5951417069");
         mAdView = new AdView( this );
         mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
@@ -193,6 +202,12 @@ public class FaceSmashActivity extends SDLActivity {
         });
     }
 
+    private void destroyAds() {
+        if(mAdView == null) return;
+        mAdView.destroy();
+        mAdView = null;
+    }
+
     public void AdsInterstitialLoad() {
         runOnUiThread(new Runnable() {
             @Override
@@ -220,6 +235,7 @@ public class FaceSmashActivity extends SDLActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                InitAds();
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.WRAP_CONTENT,
                         RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -228,6 +244,16 @@ public class FaceSmashActivity extends SDLActivity {
                 mLayout.addView(mAdView, params);
                 AdRequest adRequest = new AdRequest.Builder().build();
                 mAdView.loadAd(adRequest);
+            }
+        });
+    }
+
+    public void AdsBannerHide() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mLayout.removeView(mAdView);
+                destroyAds();
             }
         });
     }
@@ -265,7 +291,7 @@ public class FaceSmashActivity extends SDLActivity {
     @Override
     public void onDestroy() {
         mBillingManager.destroy();
-        mAdView.destroy();
+        destroyAds();
         super.onDestroy();
     }
 
