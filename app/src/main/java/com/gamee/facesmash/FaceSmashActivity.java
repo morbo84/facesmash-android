@@ -261,7 +261,8 @@ public class FaceSmashActivity extends SDLActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mAdView.resume();
+        if(mAdView != null)
+            mAdView.resume();
 
         if(cam == null) {
             InitCamera();
@@ -274,7 +275,8 @@ public class FaceSmashActivity extends SDLActivity {
 
     @Override
     public void onPause() {
-        mAdView.pause();
+        if(mAdView != null)
+            mAdView.pause();
 
         if(cam != null) {
             if (isPreviewOn) {
