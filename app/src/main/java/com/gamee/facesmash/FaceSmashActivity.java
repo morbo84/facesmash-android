@@ -261,6 +261,7 @@ public class FaceSmashActivity extends SDLActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         if(mAdView != null)
             mAdView.resume();
 
@@ -275,6 +276,8 @@ public class FaceSmashActivity extends SDLActivity {
 
     @Override
     public void onPause() {
+        super.onPause();
+
         if(mAdView != null)
             mAdView.pause();
 
@@ -286,8 +289,6 @@ public class FaceSmashActivity extends SDLActivity {
             cam.release();
             cam = null;
         }
-
-        super.onPause();
     }
 
     @Override
