@@ -252,7 +252,8 @@ public class FaceSmashActivity extends SDLActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mLayout.removeView(mAdView);
+                if(mLayout != null)
+                    mLayout.removeView(mAdView);
                 destroyAds();
             }
         });
