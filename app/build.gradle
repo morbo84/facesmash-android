@@ -71,10 +71,10 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testImplementation 'junit:junit:4.12'
-    implementation 'com.google.android.gms:play-services-ads:15.0.0'
-    implementation 'com.google.android.gms:play-services-games:15.0.0'
-    implementation 'com.google.android.gms:play-services-nearby:15.0.0'
-    implementation 'com.google.android.gms:play-services-oss-licenses:15.0.0'
+    implementation 'com.google.android.gms:play-services-ads:15.0.1'
+    implementation 'com.google.android.gms:play-services-games:15.0.1'
+    implementation 'com.google.android.gms:play-services-nearby:15.0.1'
+    implementation 'com.google.android.gms:play-services-oss-licenses:15.0.1'
     // needed by the gms oss-licenses
     implementation 'com.android.support:appcompat-v7:27.1.1'
     // play billing library
