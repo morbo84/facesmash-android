@@ -104,13 +104,11 @@ public class FaceSmashActivity extends SDLActivity {
         InitVisage();
         InitAds();
         initStorage();
-        initBillings();
-
-        if(CheckPermissionStatus(PERMISSION_REQUEST_CAMERA) == PERMISSION_GRANTED)
-            InitCamera();
+        InitBillings();
+        InitCamera();
     }
 
-    private void initBillings() {
+    private void InitBillings() {
         mBillingManager = new BillingManager(this, new BillingManager.BillingUpdatesListener() {
             @Override
             public void onBillingClientSetupFinished() {}
@@ -321,6 +319,12 @@ public class FaceSmashActivity extends SDLActivity {
     }
 
     private void InitCamera() {
+        if(CheckPermissionStatus(PERMISSION_REQUEST_CAMERA) == PERMISSION_GRANTED) {
+            InternalInitCamera();
+        }
+    }
+
+    private void InternalInitCamera() {
         int cameraId = -1;
         int numberOfCameras = Camera.getNumberOfCameras();
         for (int i = 0; i < numberOfCameras; i++) {
