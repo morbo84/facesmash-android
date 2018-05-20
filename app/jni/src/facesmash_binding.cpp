@@ -311,9 +311,12 @@ extern "C" {
 
 void Java_com_gamee_facesmash_FaceSmashActivity_WriteFrameCamera(JNIEnv* env, jobject obj, jbyteArray frame) {
     jbyte* data = env->GetByteArrayElements(frame, 0);
-    if(!gamee::cameraAndroidReady) return;
-    auto& camera = static_cast<gamee::CameraAndroid&>(gamee::Locator::Camera::ref());
-    camera.setPixels(data);
+
+    if(gamee::cameraAndroidReady) {
+        auto &camera = static_cast<gamee::CameraAndroid &>(gamee::Locator::Camera::ref());
+        camera.setPixels(data);
+    }
+
     env->ReleaseByteArrayElements(frame, data, 0);
 }
 
