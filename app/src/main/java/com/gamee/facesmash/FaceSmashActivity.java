@@ -517,7 +517,8 @@ public class FaceSmashActivity extends SDLActivity {
                 "visage/bdtsdata/LBF/ye",
                 "visage/bdtsdata/LBF/vfadata/ad",
                 "visage/bdtsdata/LBF/vfadata/ed",
-                "visage/bdtsdata/LBF/vfadata/gd"
+                "visage/bdtsdata/LBF/vfadata/gd",
+                "audio"
         };
 
         String rootDir = getFilesDir().getAbsolutePath();
@@ -560,7 +561,8 @@ public class FaceSmashActivity extends SDLActivity {
                 "visage/candide3.fdp",
                 "visage/candide3.wfm",
                 "visage/jk_300.fdp",
-                "visage/jk_300.wfm"
+                "visage/jk_300.wfm",
+                "audio/music_play.aac"
         };
 
         for (String filename : files) {
