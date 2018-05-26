@@ -60,6 +60,7 @@ public class FaceSmashActivity extends SDLActivity {
     static final int PERMISSION_GRANTED = 1;
     static final int PERMISSION_SHOW_RATIONALE = 2;
     static final int REMOVE_ADS_CODE = 0;
+    static final String MUSIC_VIDEO_AAC = "audio" + File.separator + "music_video.aac";
 
     Camera cam;
     SurfaceTexture tex;
@@ -67,6 +68,7 @@ public class FaceSmashActivity extends SDLActivity {
     int bitsPerPixel;
     boolean isPreviewOn = false;
     String videoOutputPath;
+    String audioInputPath;
 
     private InterstitialAd mInterstitialAd;
     private AtomicBoolean mInterstitialLoaded;
@@ -100,6 +102,7 @@ public class FaceSmashActivity extends SDLActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         videoOutputPath = getFilesDir().getAbsolutePath() + File.separator + "temp.mp4";
+        audioInputPath = getFilesDir().getAbsolutePath() + File.separator + MUSIC_VIDEO_AAC;
         copyAssets();
         InitVisage();
         InitAds();
@@ -165,6 +168,7 @@ public class FaceSmashActivity extends SDLActivity {
         File dir = new File(videoOutputPath).getParentFile();
         if (!dir.exists()) dir.mkdirs();
         WriteVideoOutputPath(videoOutputPath);
+        WriteAudioInputPath(audioInputPath);
     }
 
     private void InitAds() {
@@ -562,7 +566,7 @@ public class FaceSmashActivity extends SDLActivity {
                 "visage/candide3.wfm",
                 "visage/jk_300.fdp",
                 "visage/jk_300.wfm",
-                "audio/music_play.aac"
+                MUSIC_VIDEO_AAC
         };
 
         for (String filename : files) {
@@ -630,6 +634,7 @@ public class FaceSmashActivity extends SDLActivity {
     public native void WriteCameraParams(int width, int height);
     public native void InitVisage();
     public native void WriteVideoOutputPath(String path);
+    public native void WriteAudioInputPath(String path);
     // permissions management
     public native void EnqueuePermissionResult(int permission, int result);
     // needed by gpg

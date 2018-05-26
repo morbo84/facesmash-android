@@ -15,8 +15,8 @@ android {
         applicationId "com.gamee.facesmash"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 17
-        versionName "0.7.3-stuff"
+        versionCode 18
+        versionName "0.7.4-av"
         ndk {
             abiFilters 'armeabi-v7a'
         }
