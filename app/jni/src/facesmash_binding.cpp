@@ -169,7 +169,6 @@ void bindingHideBannerAd() {
 // ############################# VIDEO CAPTURE #########################
 
 static std::string videoOutputPath;
-static std::string audioInputPath;
 
 
 std::string bindingVideoOutputPath() {
@@ -178,16 +177,14 @@ std::string bindingVideoOutputPath() {
 }
 
 
-const std::string& bindingAudioInputPath() {
-    // I guess we can live without synchronization here
-    return audioInputPath;
-}
-
-
 void bindingVideoExport() {
     callVoidMethod("galleryAddVideo");
 }
 
+
+void bindingMuxAudioVideo() {
+    callVoidMethod("muxAudioVideo");
+}
 
 // ############################# PERMISSIONS #########################
 
@@ -346,11 +343,6 @@ void Java_com_gamee_facesmash_FaceSmashActivity_InitVisage(JNIEnv* env, jobject 
 
 void Java_com_gamee_facesmash_FaceSmashActivity_WriteVideoOutputPath(JNIEnv* env, jobject obj, jstring path) {
     gamee::videoOutputPath = jstring2string(env, path);
-}
-
-
-void Java_com_gamee_facesmash_FaceSmashActivity_WriteAudioInputPath(JNIEnv* env, jobject obj, jstring path) {
-    gamee::audioInputPath = jstring2string(env, path);
 }
 
 

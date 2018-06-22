@@ -9,6 +9,10 @@ import android.graphics.Color;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.media.MediaCodec;
+import android.media.MediaExtractor;
+import android.media.MediaFormat;
+import android.media.MediaMuxer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -39,6 +43,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,6 +65,8 @@ public class FaceSmashActivity extends SDLActivity {
     static final int PERMISSION_GRANTED = 1;
     static final int PERMISSION_SHOW_RATIONALE = 2;
     static final int REMOVE_ADS_CODE = 0;
+    static final String OUTPUT_VIDEO_NAME = "output.mp4";
+    static final String VIDEO_STREAM_MP4 = "video_stream.mp4";
     static final String MUSIC_VIDEO_AAC = "audio" + File.separator + "music_video.aac";
 
     Camera cam;
@@ -67,8 +74,9 @@ public class FaceSmashActivity extends SDLActivity {
     Size previewSize;
     int bitsPerPixel;
     boolean isPreviewOn = false;
-    String videoOutputPath;
-    String audioInputPath;
+    String outputVideoPath;
+    String videoStreamPath;
+    ByteBuffer extractorBuffer;
 
     private InterstitialAd mInterstitialAd;
     private AtomicBoolean mInterstitialLoaded;
@@ -101,8 +109,9 @@ public class FaceSmashActivity extends SDLActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        videoOutputPath = getFilesDir().getAbsolutePath() + File.separator + "temp.mp4";
-        audioInputPath = getFilesDir().getAbsolutePath() + File.separator + MUSIC_VIDEO_AAC;
+        outputVideoPath = getFilesDir().getAbsolutePath() + File.separator + OUTPUT_VIDEO_NAME;
+        videoStreamPath = getFilesDir().getAbsolutePath() + File.separator + VIDEO_STREAM_MP4;
+        extractorBuffer = ByteBuffer.allocate(256 * 1024);
         copyAssets();
         InitVisage();
         InitAds();
@@ -165,10 +174,9 @@ public class FaceSmashActivity extends SDLActivity {
     }
 
     private void initStorage() {
-        File dir = new File(videoOutputPath).getParentFile();
+        File dir = new File(videoStreamPath).getParentFile();
         if (!dir.exists()) dir.mkdirs();
-        WriteVideoOutputPath(videoOutputPath);
-        WriteAudioInputPath(audioInputPath);
+        WriteVideoOutputPath(videoStreamPath);
     }
 
     private void InitAds() {
@@ -566,7 +574,8 @@ public class FaceSmashActivity extends SDLActivity {
                 "visage/candide3.wfm",
                 "visage/jk_300.fdp",
                 "visage/jk_300.wfm",
-                MUSIC_VIDEO_AAC
+                MUSIC_VIDEO_AAC,
+                "videosample.mp4"
         };
 
         for (String filename : files) {
@@ -591,7 +600,7 @@ public class FaceSmashActivity extends SDLActivity {
             String datetime = s.format(new Date()); // TODO: change format
             String dstPathName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
                     + File.separator + "FaceSmash_" + datetime + ".mp4";
-            File src = new File(FaceSmashActivity.this.videoOutputPath);
+            File src = new File(outputVideoPath);
             File dst = new File(dstPathName);
             cp(src, dst);
             return dst;
@@ -629,12 +638,62 @@ public class FaceSmashActivity extends SDLActivity {
     }
 
 
+    public void muxAudioVideo() {
+        try {
+            final String audioInputPath = getFilesDir().getAbsolutePath() + File.separator + MUSIC_VIDEO_AAC;
+
+            MediaExtractor extractorV = new MediaExtractor();
+            extractorV.setDataSource(videoStreamPath);
+            MediaFormat videoFormat = extractorV.getTrackFormat(0);
+            extractorV.selectTrack(0);
+
+            MediaExtractor extractorA = new MediaExtractor();
+            extractorA.setDataSource(audioInputPath);
+            MediaFormat audioFormat = extractorA.getTrackFormat(0);
+            extractorA.selectTrack(0);
+
+            MediaMuxer muxer = new MediaMuxer(outputVideoPath, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);
+
+            int videoTrack = muxer.addTrack(videoFormat);
+            int audioTrack = muxer.addTrack(audioFormat);
+
+            muxer.start();
+
+            MediaCodec.BufferInfo videoInfo = new MediaCodec.BufferInfo();
+            // extractorV.seekTo(0, MediaExtractor.SEEK_TO_CLOSEST_SYNC);
+            while((videoInfo.size = extractorV.readSampleData(extractorBuffer, 0)) >= 0) {
+                long ts = extractorV.getSampleTime();
+                videoInfo.flags = extractorV.getSampleFlags();
+                videoInfo.presentationTimeUs = Math.max(videoInfo.presentationTimeUs, ts);
+                muxer.writeSampleData(videoTrack, extractorBuffer, videoInfo);
+                extractorV.advance();
+            }
+
+            MediaCodec.BufferInfo audioInfo = new MediaCodec.BufferInfo();
+            // extractorA.seekTo(0, MediaExtractor.SEEK_TO_CLOSEST_SYNC);
+            while((audioInfo.size = extractorA.readSampleData(extractorBuffer, 0)) >= 0) {
+                audioInfo.flags = extractorA.getSampleFlags();
+                audioInfo.presentationTimeUs = extractorA.getSampleTime();
+                muxer.writeSampleData(audioTrack, extractorBuffer, audioInfo);
+                extractorA.advance();
+            }
+
+            muxer.stop();
+            muxer.release();
+            extractorV.release();
+            extractorA.release();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     // Interfaces to native methods used to pass stuff to C++
     public native void WriteFrameCamera(byte[] frame);
     public native void WriteCameraParams(int width, int height);
     public native void InitVisage();
     public native void WriteVideoOutputPath(String path);
-    public native void WriteAudioInputPath(String path);
     // permissions management
     public native void EnqueuePermissionResult(int permission, int result);
     // needed by gpg
