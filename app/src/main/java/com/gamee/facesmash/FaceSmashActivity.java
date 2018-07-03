@@ -14,10 +14,8 @@ import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.media.MediaMuxer;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
@@ -38,18 +36,13 @@ import com.google.android.gms.ads.MobileAds;
 import org.libsdl.app.SDLActivity;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.Locale;
 
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 
@@ -65,7 +58,7 @@ public class FaceSmashActivity extends SDLActivity {
     static final int PERMISSION_GRANTED = 1;
     static final int PERMISSION_SHOW_RATIONALE = 2;
     static final int REMOVE_ADS_CODE = 0;
-    static final String OUTPUT_VIDEO_NAME = "output.mp4";
+    static final String OUTPUT_VIDEO_NAME = "video" + File.separator + "output.mp4";
     static final String VIDEO_STREAM_MP4 = "video_stream.mp4";
     static final String MUSIC_VIDEO_AAC = "audio" + File.separator + "music_video.aac";
 
@@ -177,6 +170,10 @@ public class FaceSmashActivity extends SDLActivity {
         File dir = new File(videoStreamPath).getParentFile();
         if (!dir.exists()) dir.mkdirs();
         WriteVideoOutputPath(videoStreamPath);
+
+        // create output file directory
+        File outDir = new File(outputVideoPath).getParentFile();
+        if (!outDir.exists()) outDir.mkdirs();
     }
 
     private void InitAds() {
@@ -590,39 +587,15 @@ public class FaceSmashActivity extends SDLActivity {
 
 
     public void galleryAddVideo() {
-        new AddVideoToGallery().execute();
+        String authority = getApplicationContext().getPackageName() + ".provider";
+        Uri uri = GameeFileProvider.getUriForFile(this, authority, new File(outputVideoPath));
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        intent.setType("video/mp4");
+        // intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(Intent.createChooser(intent, "Share via"));
     }
 
-
-    private class AddVideoToGallery extends AsyncTask<Void, Void, File> {
-        protected File doInBackground(Void... voids) {
-            DateFormat s = new SimpleDateFormat("yyyyMMddhhmmss", Locale.US);
-            String datetime = s.format(new Date()); // TODO: change format
-            String dstPathName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM)
-                    + File.separator + "FaceSmash_" + datetime + ".mp4";
-            File src = new File(outputVideoPath);
-            File dst = new File(dstPathName);
-            cp(src, dst);
-            return dst;
-        }
-
-        protected void onPostExecute(File f) {
-            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-            Uri contentUri = Uri.fromFile(f);
-            mediaScanIntent.setData(contentUri);
-            FaceSmashActivity.this.sendBroadcast(mediaScanIntent);
-        }
-
-        private void cp(File src, File dst) {
-            if(!dst.exists()) {
-                try {
-                    FaceSmashActivity.copyStream(new FileInputStream(src), new FileOutputStream(dst));
-                } catch (IOException e) {
-                    Log.e(TAG, String.format("Error in copying: %s", e.getMessage()));
-                }
-            }
-        }
-    }
 
     /**
      * called from native code
