@@ -53,7 +53,6 @@ public class FaceSmashActivity extends SDLActivity {
 
     static final String TAG = "FaceSmashActivity";
     static final int PERMISSION_REQUEST_CAMERA = 0;
-    static final int PERMISSION_REQUEST_STORAGE = 1;
     static final int PERMISSION_DENIED = 0;
     static final int PERMISSION_GRANTED = 1;
     static final int PERMISSION_SHOW_RATIONALE = 2;
@@ -422,9 +421,6 @@ public class FaceSmashActivity extends SDLActivity {
         switch (permission) {
             case PERMISSION_REQUEST_CAMERA:
                 permissionStr = Manifest.permission.CAMERA;
-                break;
-            case PERMISSION_REQUEST_STORAGE:
-                permissionStr = Manifest.permission.WRITE_EXTERNAL_STORAGE;
                 break;
             default:
                 permissionStr = "error";
