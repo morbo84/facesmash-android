@@ -57,8 +57,18 @@ public class FaceSmashActivity extends SDLActivity {
     static final int PERMISSION_GRANTED = 1;
     static final int PERMISSION_SHOW_RATIONALE = 2;
     static final int REMOVE_ADS_CODE = 0;
+
+    /**
+     * Path (relative) to the final, audio-video muxed, media file to be shared
+     */
     static final String OUTPUT_VIDEO_NAME = "video" + File.separator + "output.mp4";
+    /**
+     * Path (relative) to the captured video stream, written down to file
+     */
     static final String VIDEO_STREAM_MP4 = "video_stream.mp4";
+    /**
+     * Path (relative) to the audio asset used as a soundtrack for our gameplay videos
+     */
     static final String MUSIC_VIDEO_AAC = "audio" + File.separator + "music_video.aac";
 
     Camera cam;
@@ -567,8 +577,7 @@ public class FaceSmashActivity extends SDLActivity {
                 "visage/candide3.wfm",
                 "visage/jk_300.fdp",
                 "visage/jk_300.wfm",
-                MUSIC_VIDEO_AAC,
-                "videosample.mp4"
+                MUSIC_VIDEO_AAC
         };
 
         for (String filename : files) {
@@ -582,7 +591,7 @@ public class FaceSmashActivity extends SDLActivity {
     }
 
 
-    public void galleryAddVideo() {
+    public void startShareActivity() {
         String authority = getApplicationContext().getPackageName() + ".provider";
         Uri uri = GameeFileProvider.getUriForFile(this, authority, new File(outputVideoPath));
         Intent intent = new Intent(Intent.ACTION_SEND);

@@ -171,14 +171,14 @@ void bindingHideBannerAd() {
 static std::string videoOutputPath;
 
 
-std::string bindingVideoOutputPath() {
+const std::string& bindingVideoOutputPath() {
     // I guess we can live without synchronization here
     return videoOutputPath;
 }
 
 
 void bindingVideoExport() {
-    callVoidMethod("galleryAddVideo");
+    callVoidMethod("startShareActivity");
 }
 
 
