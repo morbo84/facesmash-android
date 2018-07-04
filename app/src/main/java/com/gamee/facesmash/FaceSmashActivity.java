@@ -187,15 +187,15 @@ public class FaceSmashActivity extends SDLActivity {
 
     private void InitAds() {
         if(mAdView != null) return;
-        MobileAds.initialize(this, "ca-app-pub-3134955856541949~5951417069");
+        MobileAds.initialize(this, "ca-app-pub-5570185472343522~6969327132");
         mAdView = new AdView( this );
-        mAdView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+        mAdView.setAdUnitId("ca-app-pub-5570185472343522/9261266791");
         mAdView.setAdSize(AdSize.BANNER);
         mAdView.setBackgroundColor(Color.TRANSPARENT);
 
         mInterstitialLoaded = new AtomicBoolean(false);
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId("ca-app-pub-5570185472343522/3283015951");
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdFailedToLoad(int errorCode) {}
@@ -228,7 +228,10 @@ public class FaceSmashActivity extends SDLActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                mInterstitialAd.loadAd(new AdRequest.Builder()
+                        .addTestDevice("D254B27DC2B97617242FD155AC7B7D30")
+                        .addTestDevice("B1BA8FBC0401428CA17088B5D3C481F0")
+                        .build());
             }
         });
     }
