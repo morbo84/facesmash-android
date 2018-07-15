@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.hardware.Camera.Size;
@@ -228,10 +229,7 @@ public class FaceSmashActivity extends SDLActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mInterstitialAd.loadAd(new AdRequest.Builder()
-                        .addTestDevice("D254B27DC2B97617242FD155AC7B7D30")
-                        .addTestDevice("B1BA8FBC0401428CA17088B5D3C481F0")
-                        .build());
+                mInterstitialAd.loadAd(buildAdRequest());
             }
         });
     }
@@ -261,10 +259,17 @@ public class FaceSmashActivity extends SDLActivity {
                 params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 params.addRule(RelativeLayout.CENTER_HORIZONTAL);
                 mLayout.addView(mAdView, params);
-                AdRequest adRequest = new AdRequest.Builder().build();
-                mAdView.loadAd(adRequest);
+                mAdView.loadAd(buildAdRequest());
             }
         });
+    }
+
+    @NonNull
+    private static AdRequest buildAdRequest() {
+        return new AdRequest.Builder()
+                .addTestDevice("D254B27DC2B97617242FD155AC7B7D30")
+                .addTestDevice("B1BA8FBC0401428CA17088B5D3C481F0")
+                .build();
     }
 
     public void AdsBannerHide() {
