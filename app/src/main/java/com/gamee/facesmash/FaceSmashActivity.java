@@ -114,7 +114,7 @@ public class FaceSmashActivity extends SDLActivity {
         super.onCreate(savedInstanceState);
         outputVideoPath = getFilesDir().getAbsolutePath() + File.separator + OUTPUT_VIDEO_NAME;
         videoStreamPath = getFilesDir().getAbsolutePath() + File.separator + VIDEO_STREAM_MP4;
-        extractorBuffer = ByteBuffer.allocate(256 * 1024);
+        extractorBuffer = ByteBuffer.allocate(1024 * 1024);
         copyAssets();
         InitVisage();
         InitAds();
