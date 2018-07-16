@@ -556,7 +556,7 @@ public class FaceSmashActivity extends SDLActivity {
 
         // copy files
         final String[] files = {
-                "visage/504-932-294-611-606-835-011-303-246-311-003.vlc",
+                "visage/478-415-978-378-371-879-775-031-990-195-624.vlc",
                 "visage/Facial Features Tracker - High.cfg",
                 "visage/bdtsdata/FF/ff.dat",
                 "visage/bdtsdata/LBF/lv",
