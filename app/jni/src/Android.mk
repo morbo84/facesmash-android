@@ -81,6 +81,7 @@ LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/system/scene_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/score_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/smash_button_system.cpp \
+	$(FACESMASH_SRC_DIR)/system/stanza_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/the_game_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/timer_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/training_system.cpp \
