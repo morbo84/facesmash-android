@@ -16,7 +16,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 36
-        versionName "1.0.5-deploy"
+        versionName "1.0.6-multiplayer"
         ndk {
             abiFilters 'armeabi-v7a'
         }
