@@ -66,7 +66,6 @@ LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/system/achievements_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/animation_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/audio_system.cpp \
-	$(FACESMASH_SRC_DIR)/system/av_recorder_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/billing_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/camera_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/debug_system.cpp \
@@ -77,7 +76,9 @@ LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/system/frame_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/item_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/movement_system.cpp \
+	$(FACESMASH_SRC_DIR)/system/multiplayer_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/rendering_system.cpp \
+	$(FACESMASH_SRC_DIR)/system/recording_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/scene_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/score_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/smash_button_system.cpp \
