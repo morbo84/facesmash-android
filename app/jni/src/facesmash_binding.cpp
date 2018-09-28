@@ -64,6 +64,7 @@ namespace gamee {
 // ############################# CAMERA #############################
 
 static std::pair<int, int> resolution{-1, -1};
+static int orientation{};
 
 std::atomic_bool cameraAndroidReady{false};
 static bool bindingReady{false};
@@ -71,11 +72,11 @@ static std::mutex bindingMtx;
 static std::condition_variable bindingCv;
 
 
-std::tuple<int, int> bindingGetCameraParams() {
+std::tuple<int, int, int> bindingGetCameraParams() {
     std::unique_lock lck{bindingMtx};
     if(!bindingReady)
         bindingCv.wait(lck, [] { return bindingReady; });
-    return std::make_tuple(resolution.first, resolution.second);
+    return std::make_tuple(resolution.first, resolution.second, orientation);
 }
 
 
@@ -325,10 +326,11 @@ void Java_com_gamee_facesmash_FaceSmashActivity_WriteFrameCamera(JNIEnv* env, jo
 }
 
 
-void Java_com_gamee_facesmash_FaceSmashActivity_WriteCameraParams(JNIEnv* env, jobject obj, jint width, jint height) {
+void Java_com_gamee_facesmash_FaceSmashActivity_WriteCameraParams(JNIEnv*, jobject, jint width, jint height, jint orientation) {
     if(gamee::bindingReady) return;
     std::unique_lock lck{gamee::bindingMtx};
     gamee::resolution = {width, height};
+    gamee::orientation = orientation;
     gamee::bindingReady = true;
     lck.unlock();
     gamee::bindingCv.notify_all();

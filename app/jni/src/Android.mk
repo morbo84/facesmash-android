@@ -25,7 +25,6 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/$(SDL_PATH)/include \
 	$(LOCAL_PATH)/$(ENTT_SRC_DIR) \
 	$(LOCAL_PATH)/$(FACESMASH_SRC_DIR)
 
-# Add your application source files here...
 LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/common/bag.cpp \
 	$(FACESMASH_SRC_DIR)/common/ease.cpp \
@@ -77,8 +76,8 @@ LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/system/item_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/movement_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/multiplayer_system.cpp \
-	$(FACESMASH_SRC_DIR)/system/rendering_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/recording_system.cpp \
+	$(FACESMASH_SRC_DIR)/system/rendering_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/scene_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/score_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/smash_button_system.cpp \

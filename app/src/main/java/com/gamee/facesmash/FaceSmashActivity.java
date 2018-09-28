@@ -372,6 +372,9 @@ public class FaceSmashActivity extends SDLActivity {
         Camera.Parameters parameters = cam.getParameters();
         setPreviewSize(parameters, 720);
 
+        Camera.CameraInfo info = new Camera.CameraInfo();
+        Camera.getCameraInfo(cameraId, info);
+
         bitsPerPixel = ImageFormat.getBitsPerPixel(cam.getParameters().getPreviewFormat());
         int dataBufferSize = (previewSize.height * previewSize.width * bitsPerPixel) / 8;
         for (int i = 0; i < 2; i++) {
@@ -385,7 +388,7 @@ public class FaceSmashActivity extends SDLActivity {
             e.printStackTrace();
         }
 
-        WriteCameraParams(previewSize.width, previewSize.height);
+        WriteCameraParams(previewSize.width, previewSize.height, info.orientation);
     }
 
     private void InternalStartCamera() {
@@ -677,7 +680,7 @@ public class FaceSmashActivity extends SDLActivity {
 
     // Interfaces to native methods used to pass stuff to C++
     public native void WriteFrameCamera(byte[] frame);
-    public native void WriteCameraParams(int width, int height);
+    public native void WriteCameraParams(int width, int height, int orientation);
     public native void InitVisage();
     public native void WriteVideoOutputPath(String path);
     // permissions management
