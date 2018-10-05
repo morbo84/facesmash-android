@@ -15,8 +15,8 @@ android {
         applicationId "com.gamee.facesmash"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 36
-        versionName "1.0.6-multiplayer"
+        versionCode 37
+        versionName "1.1.1-rateme"
         ndk {
             abiFilters 'armeabi-v7a'
         }
@@ -27,7 +27,7 @@ android {
         }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    signingConfigs{
+    signingConfigs {
         debug {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
@@ -82,4 +82,6 @@ dependencies {
     implementation 'com.android.support:support-v4:28.0.0'
     // play billing library
     implementation 'com.android.billingclient:billing:1.0'
+    // rate this app library
+    implementation 'io.github.kobakei:ratethisapp:1.2.0'
 }

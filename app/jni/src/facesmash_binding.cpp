@@ -309,6 +309,19 @@ void queryPurchases()  {
 }
 
 
+// ############################# RATING #########################
+
+void setRatingState(int state) noexcept {
+    auto& settings = Locator::Settings::ref();
+    settings.write("rating/state", static_cast<int64_t >(state));
+}
+
+
+void showRateDialog() noexcept {
+    callVoidMethod("showRateDialog");
+}
+
+
 } // namespace gamee
 
 
@@ -343,18 +356,23 @@ void Java_com_gamee_facesmash_FaceSmashActivity_InitVisage(JNIEnv* env, jobject 
 }
 
 
-void Java_com_gamee_facesmash_FaceSmashActivity_WriteVideoOutputPath(JNIEnv* env, jobject obj, jstring path) {
+void Java_com_gamee_facesmash_FaceSmashActivity_WriteVideoOutputPath(JNIEnv* env, jobject , jstring path) {
     gamee::videoOutputPath = jstring2string(env, path);
 }
 
 
-void Java_com_gamee_facesmash_FaceSmashActivity_EnqueuePermissionResult(JNIEnv* env, jobject obj, jint permission, jint result) {
+void Java_com_gamee_facesmash_FaceSmashActivity_EnqueuePermissionResult(JNIEnv* , jobject , jint permission, jint result) {
     gamee::enqueuePermissionResult(permission, result);
 }
 
 
-void Java_com_gamee_facesmash_FaceSmashActivity_purchaseUpdated(JNIEnv *env, jobject instance, jint product, jint result) {
+void Java_com_gamee_facesmash_FaceSmashActivity_purchaseUpdated(JNIEnv *, jobject , jint product, jint result) {
     gamee::enqueuePurchaseUpdates(product, result);
+}
+
+
+void Java_com_gamee_facesmash_FaceSmashActivity_setRatingState(JNIEnv *, jobject , jint state) {
+    gamee::setRatingState(state);
 }
 
 

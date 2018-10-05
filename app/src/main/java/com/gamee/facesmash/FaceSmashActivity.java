@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
+import com.kobakei.ratethisapp.RateThisApp;
 
 /**
  * A sample wrapper class that just calls SDLActivity
@@ -58,6 +59,10 @@ public class FaceSmashActivity extends SDLActivity {
     static final int PERMISSION_GRANTED = 1;
     static final int PERMISSION_SHOW_RATIONALE = 2;
     static final int REMOVE_ADS_CODE = 0;
+    static final int RATING_DONE = 0;
+    static final int RATING_LATER = 1;
+    static final int RATING_NO = 2;
+
 
     /**
      * Path (relative) to the final, audio-video muxed, media file to be shared
@@ -121,6 +126,37 @@ public class FaceSmashActivity extends SDLActivity {
         initStorage();
         InitBillings();
         InitCamera();
+        InitRateThisApp();
+    }
+
+    private void InitRateThisApp() {
+        // Monitor launch times and interval from installation
+        RateThisApp.onCreate(this);
+        // Set dialog configuration
+        RateThisApp.init(new RateThisApp.Config(3,3));
+        // Set dialog callbacks
+        RateThisApp.setCallback(new RateThisApp.Callback() {
+            @Override
+            public void onYesClicked() {
+                setRatingState(RATING_DONE);
+            }
+
+            @Override
+            public void onNoClicked() {
+                setRatingState(RATING_NO);
+            }
+
+            @Override
+            public void onCancelClicked() {
+                setRatingState(RATING_LATER);
+            }
+        });
+        // If the condition is satisfied, "Rate this app" dialog will be shown
+        RateThisApp.showRateDialogIfNeeded(this, R.style.Theme_AppCompat_DayNight_DarkActionBar);
+    }
+
+    public void showRateDialog() {
+        RateThisApp.showRateDialog(this, R.style.Theme_AppCompat_DayNight_DarkActionBar);
     }
 
     private void InitBillings() {
@@ -689,4 +725,6 @@ public class FaceSmashActivity extends SDLActivity {
     public native void nativeOnActivityResult(Activity activity, int requestCode, int resultCode, Intent data);
     // billing service
     public native void purchaseUpdated(int product, int result);
+    // rate this app
+    public native void setRatingState(int state);
 }
