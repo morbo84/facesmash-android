@@ -62,6 +62,7 @@ public class FaceSmashActivity extends SDLActivity {
     static final int RATING_DONE = 0;
     static final int RATING_LATER = 1;
     static final int RATING_NO = 2;
+    static final int RATE_DIALOG_STYLE = R.style.Theme_AppCompat_Dialog_Alert;
 
 
     /**
@@ -152,11 +153,16 @@ public class FaceSmashActivity extends SDLActivity {
             }
         });
         // If the condition is satisfied, "Rate this app" dialog will be shown
-        RateThisApp.showRateDialogIfNeeded(this, R.style.Theme_AppCompat_DayNight_DarkActionBar);
+        RateThisApp.showRateDialogIfNeeded(this, RATE_DIALOG_STYLE);
     }
 
     public void showRateDialog() {
-        RateThisApp.showRateDialog(this, R.style.Theme_AppCompat_DayNight_DarkActionBar);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                RateThisApp.showRateDialog(FaceSmashActivity.this, RATE_DIALOG_STYLE);
+            }
+        });
     }
 
     private void InitBillings() {
