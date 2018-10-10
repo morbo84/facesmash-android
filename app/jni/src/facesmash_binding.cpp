@@ -313,7 +313,7 @@ void queryPurchases()  {
 
 void setRatingState(int state) noexcept {
     auto& settings = Locator::Settings::ref();
-    settings.write("rating/state", static_cast<int64_t >(state));
+    settings.write(settingsRatingState, static_cast<int64_t >(state));
 }
 
 
