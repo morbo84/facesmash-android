@@ -15,8 +15,8 @@ android {
         applicationId "com.gamee.facesmash"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 40
-        versionName "1.1.4-rateus"
+        versionCode 42
+        versionName "1.1.6-labels"
         ndk {
             abiFilters 'armeabi-v7a'
         }
