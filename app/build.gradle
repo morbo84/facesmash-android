@@ -71,10 +71,10 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testImplementation 'junit:junit:4.12'
-    implementation 'com.google.android.gms:play-services-ads:15.0.1'
-    implementation 'com.google.android.gms:play-services-games:15.0.1'
-    implementation 'com.google.android.gms:play-services-nearby:15.0.1'
-    implementation 'com.google.android.gms:play-services-oss-licenses:16.0.0'
+    implementation 'com.google.android.gms:play-services-ads:17.0.0'
+    implementation 'com.google.android.gms:play-services-games:16.0.0'
+    implementation 'com.google.android.gms:play-services-nearby:16.0.0'
+    implementation 'com.google.android.gms:play-services-oss-licenses:16.0.1'
     // needed by the gms oss-licenses
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:customtabs:28.0.0'
