@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "594145657700",
+    "firebase_url": "https://face-smash-16352103.firebaseio.com",
+    "project_id": "face-smash-16352103",
+    "storage_bucket": "face-smash-16352103.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594145657700:android:36181a8d356f5138",
+        "android_client_info": {
+          "package_name": "com.gamee.facesmash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594145657700-p2tpjg9u31ubrdu58tgflgldue3s49ln.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gamee.facesmash",
+            "certificate_hash": "3fb455d386750fe0c063ceec824c9f4c5ad1387d"
+          }
+        },
+        {
+          "client_id": "594145657700-pbddol5cueasfje04nbfigften5bhgea.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmsgPoCkYaI173Hq_fQ_F2RDZBMXybooQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "594145657700-pbddol5cueasfje04nbfigften5bhgea.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
