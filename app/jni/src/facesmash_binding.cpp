@@ -322,6 +322,31 @@ void showRateDialog() noexcept {
 }
 
 
+// ############################# WALLPAPER #########################
+
+void bindingBitmapShare(const std::byte* data, size_t size) {
+    // retrieve the JNI environment.
+    JNIEnv* env = (JNIEnv*)SDL_AndroidGetJNIEnv();
+
+    // retrieve the Java instance of the SDLActivity
+    jobject activity = (jobject)SDL_AndroidGetActivity();
+
+    // find the Java class of the activity. It should be SDLActivity or a subclass of it.
+    jclass clazz{env->GetObjectClass(activity)};
+
+    jcharArray jData{};
+    env->SetCharArrayRegion((jcharArray)jData, (jsize)0, (jsize)size, (const jchar*)data);
+
+    // invoke the method
+    jmethodID myMethod = env->GetMethodID(clazz, "startShareActivity", "([BI)V");
+    env->CallVoidMethod(activity, myMethod, jData, (jint)size);
+
+    // clean up the local references.
+    env->DeleteLocalRef(activity);
+    env->DeleteLocalRef(clazz);
+}
+
+
 } // namespace gamee
 
 

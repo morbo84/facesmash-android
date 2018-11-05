@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -651,6 +652,14 @@ public class FaceSmashActivity extends SDLActivity {
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         intent.setType("video/mp4");
         // intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(Intent.createChooser(intent, "Share via"));
+    }
+
+
+    public void startShareActivity(final byte[] data, int size) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_STREAM, data);
+        intent.setType("img/bmp");
         startActivity(Intent.createChooser(intent, "Share via"));
     }
 
