@@ -334,8 +334,8 @@ void bindingBitmapShare(const std::byte* data, size_t size) {
     // find the Java class of the activity. It should be SDLActivity or a subclass of it.
     jclass clazz{env->GetObjectClass(activity)};
 
-    jcharArray jData{};
-    env->SetCharArrayRegion((jcharArray)jData, (jsize)0, (jsize)size, (const jchar*)data);
+    jcharArray jData = env->NewCharArray(size + 1);
+    env->SetCharArrayRegion(jData, 0, (jsize)size, (const jchar *)data);
 
     // invoke the method
     jmethodID myMethod = env->GetMethodID(clazz, "startShareActivity", "([BI)V");

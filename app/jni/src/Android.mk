@@ -86,6 +86,7 @@ LOCAL_SRC_FILES := \
 	$(FACESMASH_SRC_DIR)/system/timer_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/training_system.cpp \
 	$(FACESMASH_SRC_DIR)/system/ui_button_system.cpp \
+        $(FACESMASH_SRC_DIR)/system/wallpaper_system.cpp \
 	$(FACESMASH_SRC_DIR)/time/clock.cpp \
 	$(FACESMASH_SRC_DIR)/main.cpp \
 	facesmash_binding.cpp \
