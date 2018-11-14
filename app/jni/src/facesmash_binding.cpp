@@ -170,6 +170,7 @@ void bindingHideBannerAd() {
 // ############################# VIDEO CAPTURE #########################
 
 static std::string videoOutputPath;
+static std::string wallpaperOutputPath;
 
 
 const std::string& bindingVideoOutputPath() {
@@ -178,8 +179,19 @@ const std::string& bindingVideoOutputPath() {
 }
 
 
-void bindingVideoExport() {
-    callVoidMethod("startShareActivity");
+const std::string& bindingWallpaperOutputPath() {
+    // I guess we can live without synchronization here
+    return wallpaperOutputPath;
+}
+
+
+void bindingVideoShare() {
+    callVoidMethod("startShareActivityVideo");
+}
+
+
+void bindingWallpaperShare() {
+    callVoidMethod("startShareActivityWallpaper");
 }
 
 
@@ -322,31 +334,6 @@ void showRateDialog() noexcept {
 }
 
 
-// ############################# WALLPAPER #########################
-
-void bindingBitmapShare(const std::byte* data, size_t size) {
-    // retrieve the JNI environment.
-    JNIEnv* env = (JNIEnv*)SDL_AndroidGetJNIEnv();
-
-    // retrieve the Java instance of the SDLActivity
-    jobject activity = (jobject)SDL_AndroidGetActivity();
-
-    // find the Java class of the activity. It should be SDLActivity or a subclass of it.
-    jclass clazz{env->GetObjectClass(activity)};
-
-    jcharArray jData = env->NewCharArray(size + 1);
-    env->SetCharArrayRegion(jData, 0, (jsize)size, (const jchar *)data);
-
-    // invoke the method
-    jmethodID myMethod = env->GetMethodID(clazz, "startShareActivity", "([BI)V");
-    env->CallVoidMethod(activity, myMethod, jData, (jint)size);
-
-    // clean up the local references.
-    env->DeleteLocalRef(activity);
-    env->DeleteLocalRef(clazz);
-}
-
-
 } // namespace gamee
 
 
@@ -383,6 +370,11 @@ void Java_com_gamee_facesmash_FaceSmashActivity_InitVisage(JNIEnv* env, jobject 
 
 void Java_com_gamee_facesmash_FaceSmashActivity_WriteVideoOutputPath(JNIEnv* env, jobject , jstring path) {
     gamee::videoOutputPath = jstring2string(env, path);
+}
+
+
+void Java_com_gamee_facesmash_FaceSmashActivity_WriteWallpaperOutputPath(JNIEnv* env, jobject , jstring path) {
+    gamee::wallpaperOutputPath = jstring2string(env, path);
 }
 
 

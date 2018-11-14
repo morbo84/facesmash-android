@@ -36,7 +36,9 @@ import com.google.android.gms.ads.MobileAds;
 
 import org.libsdl.app.SDLActivity;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -71,6 +73,10 @@ public class FaceSmashActivity extends SDLActivity {
      */
     static final String OUTPUT_VIDEO_NAME = "video" + File.separator + "output.mp4";
     /**
+     * Path (relative) to the wallpaper file to be shared
+     */
+    static final String OUTPUT_WALLPAPER_NAME = "video" + File.separator + "wallpaper.bmp";
+    /**
      * Path (relative) to the captured video stream, written down to file
      */
     static final String VIDEO_STREAM_MP4 = "video_stream.mp4";
@@ -85,6 +91,7 @@ public class FaceSmashActivity extends SDLActivity {
     int bitsPerPixel;
     boolean isPreviewOn = false;
     String outputVideoPath;
+    String outputWallpaperPath;
     String videoStreamPath;
     ByteBuffer extractorBuffer;
 
@@ -120,6 +127,7 @@ public class FaceSmashActivity extends SDLActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         outputVideoPath = getFilesDir().getAbsolutePath() + File.separator + OUTPUT_VIDEO_NAME;
+        outputWallpaperPath = getFilesDir().getAbsolutePath() + File.separator + OUTPUT_WALLPAPER_NAME;
         videoStreamPath = getFilesDir().getAbsolutePath() + File.separator + VIDEO_STREAM_MP4;
         extractorBuffer = ByteBuffer.allocate(1024 * 1024);
         copyAssets();
@@ -227,6 +235,9 @@ public class FaceSmashActivity extends SDLActivity {
         // create output file directory
         File outDir = new File(outputVideoPath).getParentFile();
         if (!outDir.exists()) outDir.mkdirs();
+
+        // pass wallpaper path to native code
+        WriteWallpaperOutputPath(outputWallpaperPath);
     }
 
     private void InitAds() {
@@ -645,21 +656,22 @@ public class FaceSmashActivity extends SDLActivity {
     }
 
 
-    public void startShareActivity() {
+    public void startShareActivityVideo() {
         String authority = getApplicationContext().getPackageName() + ".provider";
         Uri uri = GameeFileProvider.getUriForFile(this, authority, new File(outputVideoPath));
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         intent.setType("video/mp4");
-        // intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(Intent.createChooser(intent, "Share via"));
     }
 
 
-    public void startShareActivity(final byte[] data, int size) {
+    public void startShareActivityWallpaper() {
+        String authority = getApplicationContext().getPackageName() + ".provider";
+        Uri uri = GameeFileProvider.getUriForFile(this, authority, new File(outputWallpaperPath));
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_STREAM, data);
-        intent.setType("img/bmp");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        intent.setType("image/*");
         startActivity(Intent.createChooser(intent, "Share via"));
     }
 
@@ -734,6 +746,7 @@ public class FaceSmashActivity extends SDLActivity {
     public native void WriteCameraParams(int width, int height, int orientation);
     public native void InitVisage();
     public native void WriteVideoOutputPath(String path);
+    public native void WriteWallpaperOutputPath(String path);
     // permissions management
     public native void EnqueuePermissionResult(int permission, int result);
     // needed by gpg
