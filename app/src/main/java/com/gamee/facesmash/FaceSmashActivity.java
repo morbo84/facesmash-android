@@ -656,23 +656,32 @@ public class FaceSmashActivity extends SDLActivity {
     }
 
 
-    public void startShareActivityVideo() {
+    private void startShareActivity(String path, String mimeType, String title, String message) {
         String authority = getApplicationContext().getPackageName() + ".provider";
-        Uri uri = GameeFileProvider.getUriForFile(this, authority, new File(outputVideoPath));
+        Uri uri = GameeFileProvider.getUriForFile(this, authority, new File(path));
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_STREAM, uri);
-        intent.setType("video/mp4");
-        startActivity(Intent.createChooser(intent, "Share via"));
+        intent.putExtra(Intent.EXTRA_TEXT, message);
+        intent.setType(mimeType);
+        startActivity(Intent.createChooser(intent, title));
+    }
+
+
+    public void startShareActivityVideo() {
+        final String title = "Share Face Smash Video via...";
+        final String message = "#facesmash #facesmashchallenge" +
+                "\nTry Face Smash for Android for FREE!" +
+                "\nhttps://play.google.com/store/apps/details?id=com.gamee.facesmash";
+        startShareActivity(outputVideoPath, "video/mp4", title, message);
     }
 
 
     public void startShareActivityWallpaper() {
-        String authority = getApplicationContext().getPackageName() + ".provider";
-        Uri uri = GameeFileProvider.getUriForFile(this, authority, new File(outputWallpaperPath));
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_STREAM, uri);
-        intent.setType("image/*");
-        startActivity(Intent.createChooser(intent, "Share via"));
+        final String title = "Share Face Smash Wallpaper via...";
+        final String message = "#facesmash #halloffaces" +
+                "\nTry Face Smash for Android for FREE!" +
+                "\nhttps://play.google.com/store/apps/details?id=com.gamee.facesmash";
+        startShareActivity(outputWallpaperPath, "image/*", title, message);
     }
 
 
