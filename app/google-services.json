@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "594145657700-2967fs1g56ptc8oecoeve5gt2m4a4f3c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gamee.facesmash",
+            "certificate_hash": "fee3e03b64305e93b16bf0c447530aa369e7357d"
+          }
+        },
+        {
           "client_id": "594145657700-pbddol5cueasfje04nbfigften5bhgea.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -48,7 +56,8 @@
         "ads_service": {
           "status": 2
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-5570185472343522~6969327132"
     }
   ],
   "configuration_version": "1"
