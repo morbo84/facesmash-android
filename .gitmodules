@@ -1,6 +1,6 @@
 [submodule "app/jni/src/facesmash-sources"]
 	path = app/jni/src/facesmash-sources
-	url = git@github.com:skypjack/facesmash-sources.git
+	url = git@github.com:morbo84/facesmash-sources.git
 [submodule "app/jni/src/entt"]
 	path = app/jni/src/entt
 	url = git@github.com:skypjack/entt.git
